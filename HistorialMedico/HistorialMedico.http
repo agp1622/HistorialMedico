@@ -1,0 +1,6 @@
+@HistorialMedico_HostAddress = http://localhost:5210
+
+GET {{HistorialMedico_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
