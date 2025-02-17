@@ -1,4 +1,4 @@
-namespace HistorialMedico.Domain.Services;
+namespace Presentation.Domain.Services;
 
 public class JwtSettings
 {

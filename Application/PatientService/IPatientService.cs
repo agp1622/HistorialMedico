@@ -1,7 +1,8 @@
 using System.Security.Cryptography;
-using HistorialMedico.Domain;
+using Core.Entities;
+using Presentation.Domain;
 
-namespace HistorialMedico.Services;
+namespace Presentation.Services;
 
 public interface IPatientService
 {

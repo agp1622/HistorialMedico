@@ -1,12 +1,17 @@
 using System.Collections.Immutable;
 using System.Text;
-using HistorialMedico.Data;
-using HistorialMedico.Services;
+using Core.Entities;
+using Infrastructure.Context;
+using Presentation.Domain;
+using Presentation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presentation.Domain.Services;
+using User = Core.Entities.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +20,10 @@ var key = "YourSuperSecretKeyHere"u8.ToArray(); // Replace with a secure key
 // Services
 
 builder.Services.AddDbContext<HistorialDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("HistorialDB")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("HistorialDb")));
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDb")));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -32,6 +40,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<HistorialDbContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -43,6 +56,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+
 
 builder.Services.AddAuthorization();
 
@@ -78,7 +93,7 @@ var summaries = new[]
 };
 
 
-// Application logic methods
+// Controllers
 
 app.MapGet("/weatherforecast",
         () =>
@@ -94,10 +109,36 @@ app.MapGet("/weatherforecast",
         })
     .WithName("GetWeatherForecast");
 
+
+// Patients controllers
+
+app.MapGet("/patients",
+    async (IPatientService patientService, int pageNumber = 1, int pageSize = 10, int maxPages = 5) =>
+    {
+        var patients = await patientService.GetPatients(pageNumber, pageSize, maxPages);
+        return Results.Ok(patients);
+    });
+
+app.MapPost("/patients",
+    async (IPatientService patientService, Patient patient) =>
+    {
+        if (patient == null)
+        {
+            return Results.BadRequest();
+        }
+        
+        var result = await patientService.CreatePatient(patient); 
+        
+        return Results.Created($"/patients/{result.Id}", result);
+    });
+
+
+// User Endpoints
+
 app.MapPost("api/auth/login",
     async (LoginModel loginModel,
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
         IUserService userService) =>
     {
         var user = await userManager.FindByNameAsync(loginModel.Username);
@@ -108,6 +149,14 @@ app.MapPost("api/auth/login",
 
         var token = userService.GenerateJwtToken(user);
         return Results.Ok(token);
+    });
+
+app.MapPost("/api/admin/createUser",
+    async (RegisterModel registerModel, UserManager<User> userManager, HttpContext httpContext, IUserService userService) =>
+    {
+        var result = await userService.CreateUserAsync(registerModel, httpContext.User);
+
+        return result.Succeeded ? Results.Ok("User created successfully") : Results.BadRequest(result.Errors.FirstOrDefault()?.Description);
     });
 
 app.Run();

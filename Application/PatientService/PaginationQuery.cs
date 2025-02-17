@@ -1,4 +1,4 @@
-namespace HistorialMedico.Domain;
+namespace Presentation.Domain;
 
 public class PaginationQuery
 {

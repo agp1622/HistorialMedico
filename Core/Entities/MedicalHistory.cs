@@ -1,7 +1,10 @@
-namespace HistorialMedico.Domain;
+using System.Text.Json.Serialization;
+
+namespace Core.Entities;
 
 public class MedicalHistory
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public string? History { get; set; }
     public string currentAge { get; set; }

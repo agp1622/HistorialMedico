@@ -1,8 +1,7 @@
-using System.Reflection.Metadata;
-using HistorialMedico.Domain;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace HistorialMedico.Data;
+namespace Infrastructure.Context;
 
 public class HistorialDbContext: DbContext
 {
@@ -11,5 +10,4 @@ public class HistorialDbContext: DbContext
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<MedicalHistory> PatientHistories { get; set; }
-    public DbSet<User> Users { get; set; }
 }

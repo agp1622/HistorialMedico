@@ -1,8 +1,9 @@
-using HistorialMedico.Data;
-using HistorialMedico.Services;
+using Core.Entities;
+using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Presentation.Services;
 
-namespace HistorialMedico.Domain.Services;
+namespace Presentation.Domain.Services;
 
 public class PatientService: IPatientService
 {
@@ -18,7 +19,7 @@ public class PatientService: IPatientService
         var query = this._context.Patients.AsQueryable();
         
         var patients = await query
-            .Skip((pageNumber))
+            .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
