@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace Core.Entities;
 
-public class Patient
+public class Patient: BaseEntity
 {
     [JsonIgnore]
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  // Auto-generate the Id
-    public int Id {get;set;}
+    public Guid Id {get;set;}
     public string Name { get; set; }
     public string? MiddleName { get; set; }
     public string FirstLastName { get; set; }

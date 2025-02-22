@@ -1,10 +1,12 @@
 using System.Collections.Immutable;
 using System.Text;
 using Core.Entities;
+using Infrastructure;
 using Infrastructure.Context;
 using Presentation.Domain;
 using Presentation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,10 +42,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
-builder.Services.AddIdentityCore<User>()
-    .AddEntityFrameworkStores<HistorialDbContext>()
-    .AddSignInManager()
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -53,6 +56,31 @@ builder.Services.AddSwaggerGen(options =>
         {
             Version = "v1", Title = "Historial Medico API", Description = "Historial Medico",
         });
+    
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme.",
+    });
+    
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new List<string>()
+        }
+    });
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -74,28 +102,40 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Historial Medico");
         options.RoutePrefix = string.Empty;
+        
+        options.InjectJavascript("/swagger-ui/custom-auth.js");
     });
+    
+    // Configure the HTTP request pipeline.
+    app.MapOpenApi();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+    DatabaseSeed.Unseed(dbContext);
+    DatabaseSeed.Seed(dbContext);
 }
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
+
+// API Endpoints
 
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
+var apiV1 = app.MapGroup("/api/v1");
+
 
 // Controllers
 
-app.MapGet("/weatherforecast",
+apiV1.MapGet("/weatherforecast",
         () =>
         {
             var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -112,14 +152,14 @@ app.MapGet("/weatherforecast",
 
 // Patients controllers
 
-app.MapGet("/patients",
+apiV1.MapGet("/patients", [Authorize]
     async (IPatientService patientService, int pageNumber = 1, int pageSize = 10, int maxPages = 5) =>
     {
         var patients = await patientService.GetPatients(pageNumber, pageSize, maxPages);
         return Results.Ok(patients);
     });
 
-app.MapPost("/patients",
+apiV1.MapPost("/patients", [Authorize]
     async (IPatientService patientService, Patient patient) =>
     {
         if (patient == null)
@@ -135,7 +175,7 @@ app.MapPost("/patients",
 
 // User Endpoints
 
-app.MapPost("api/auth/login",
+apiV1.MapPost("/auth/login",
     async (LoginModel loginModel,
         UserManager<User> userManager,
         SignInManager<User> signInManager,
@@ -151,7 +191,7 @@ app.MapPost("api/auth/login",
         return Results.Ok(token);
     });
 
-app.MapPost("/api/admin/createUser",
+app.MapPost("/api/admin/createUser", [Authorize(Policy = "Admin")]
     async (RegisterModel registerModel, UserManager<User> userManager, HttpContext httpContext, IUserService userService) =>
     {
         var result = await userService.CreateUserAsync(registerModel, httpContext.User);

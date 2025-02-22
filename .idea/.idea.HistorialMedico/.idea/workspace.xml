@@ -9,35 +9,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/UserService/IUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/UserService/RegisterModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/UserService/UserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Entities/Role.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Entities/User.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastructure/Context/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/BaseEntityConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/wwwroot/swagger-ui/custom-auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico.sln" beforeDir="false" afterPath="$PROJECT_DIR$/HistorialMedico.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Data/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Entities/User.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/PaginatedList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PaginatedList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/PaginationQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PaginationQuery.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/IPatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/JwtSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/JwtSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/PatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/UserService/ApplicationUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/UserService/IUserService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/UserService/LoginModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Domain/Services/UserService/UserService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/HistorialMedico.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Presentation.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/HistorialMedico.http" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/HistorialMedico.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/20250217074105_InitialCreate.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/20250217074105_InitialCreate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/HistorialDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/20250217065705_InitialCreate_Identity.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/20250217065705_InitialCreate_Identity.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +36,13 @@
   </component>
   <component name="DpaMonitoringSettings">
     <option name="firstShow" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -71,10 +68,23 @@
     <setting file="file://$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477051138f1f40de9077b7b1cdc55c6215fb0/ab/8e51c4e5/JwtRegisteredClaimNames.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/a4/f58cb548/IUserRoleStore`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/f7/7591d36e/IUserStore`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9ff6fe24f5944b35a381217736eded33290038/6c/0a929cb9/IEntityTypeConfiguration`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1622b8f95d27187bc1fb39bac49bd64e928773df4fda6fcf6271680be54a2/UserManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1750dff95ce6347f7797ec095c5c17196efe67de17ff2666b9992265f0b6/AuthorizeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24116c9a39d9274a98c16b9083d086948f901ce1289686d8da7a3886b19833f2/IdentityServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3fb817e54adc356accb55030a7434f98b3bf4e5e544ecf99ab2cd8d5a601e/TextInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/57f54b4f82b56a06d59c83a36fce97d6774c3ceda2b76c8d09ea472732769/EntityTypeBuilder`.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/77a288e47fae82d884d4b7131707fda84e882cde146aff472dbc8c9c3e9e46d/IdentityServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d382df578ec93391918cfaa4ce7f4b8f35c9aed1241d6556dc9be26df13c/IdentityUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e25cce28490c87faaf15522967e96692c1829b521f6b7a4fc8bde524eec/IdentityRole.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/93ae622aa81491a6b9920b22434c6c61ac967acd635abfda9f3ecb2a7a7d626/Results.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9fc14c9d50268c83871a1e44d9a3301092ce593c973f486af9d6d56482cff013/IdentityUserRole.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a0b45f29f34f594814a7b1fbc25fe5ef3c18257956ed4f4fbfa68717db58/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a984a133191d26625f45e85cc27e20cad64f4a6ecb6263b4c17bc55965a5/String.Manipulation.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c15c9b5c544ead29477e597aa7132938ddec0fd10de22323fc08f689dcff2c8/InvariantModeCasing.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e6ffa07170418d752d8a58b1274f31a9a168653dc121755eb77a3f8fea12/PasswordHasher.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f9342fb513b7b524925c79d9822cd3ecaf072c50231aa3b469875f4c2cdf/IdentityDbContext.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -100,7 +110,7 @@
     "HTTP Request.All in HistorialMedico.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.5988758",
+    "XThreadsFramesViewSplitterKey": "0.7483568",
     "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -162,7 +172,8 @@
       <workItem from="1739124410683" duration="15275000" />
       <workItem from="1739336498313" duration="14924000" />
       <workItem from="1739757443964" duration="12687000" />
-      <workItem from="1739775030899" duration="3048000" />
+      <workItem from="1739775030899" duration="18495000" />
+      <workItem from="1740116810700" duration="5100000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -196,7 +207,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739340370619</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Separed project by layer&#10;Completed PatientService">
+      <option name="closed" value="true" />
+      <created>1739778222859</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1739778222859</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added migrations and more changes">
+      <option name="closed" value="true" />
+      <created>1739778255297</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739778255297</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,23 +248,25 @@
     <MESSAGE value="Added authorization and authentication middleware" />
     <MESSAGE value="Added swagger integration" />
     <MESSAGE value="Advanced logic for authentication" />
-    <option name="LAST_COMMIT_MESSAGE" value="Advanced logic for authentication" />
+    <MESSAGE value="Separed project by layer&#10;Completed PatientService" />
+    <MESSAGE value="Added migrations and more changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added migrations and more changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
-          <line>132</line>
-          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
+          <url>file://$PROJECT_DIR$/Application/UserService/UserService.cs</url>
+          <line>31</line>
+          <properties documentPath="$PROJECT_DIR$/Application/UserService/UserService.cs" containingFunctionPresentation="Method 'CreateUserAsync'">
             <startOffsets>
-              <option value="3966" />
+              <option value="1014" />
             </startOffsets>
             <endOffsets>
-              <option value="3967" />
+              <option value="1070" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
