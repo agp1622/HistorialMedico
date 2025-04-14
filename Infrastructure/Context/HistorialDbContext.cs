@@ -9,5 +9,6 @@ public class HistorialDbContext: DbContext
     
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Parent> Parents { get; set; }
+    public DbSet<ExpedienteCounter> ExpedienteCounters { get; set; }
     public DbSet<MedicalHistory> PatientHistories { get; set; }
 }

@@ -3,7 +3,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Services;
 
-namespace Presentation.Domain.Services;
+namespace Application.PatientService;
 
 public class PatientService: IPatientService
 {
@@ -23,7 +23,7 @@ public class PatientService: IPatientService
             .Take(pageSize)
             .ToListAsync();
 
-        var totalRecords = await _context.Patients.CountAsync();
+        var totalRecords = await this._context.Patients.CountAsync();
         
         var totalPages = (int)Math.Ceiling((double)totalRecords / (double)pageSize);
         var pagesToDisplay = totalPages > maxPages ? maxPages : totalPages;
@@ -40,7 +40,7 @@ public class PatientService: IPatientService
 
     public async Task<Patient> GetPatient(int id)
     {
-        var patient = await _context.Patients.FindAsync(id);
+        var patient = await this._context.Patients.FindAsync(id);
 
         if (patient is null)
         {
@@ -65,6 +65,8 @@ public class PatientService: IPatientService
 
     public async Task<Patient> CreatePatient(Patient patient)
     {
+        patient.NumExpediente = await GenerateUniqueNumExpedienteAsync();
+        
         await this._context.Patients.AddAsync(patient);
         await this._context.SaveChangesAsync();
         
@@ -73,6 +75,71 @@ public class PatientService: IPatientService
 
     public async Task<Patient> UpdatePatient(Patient patient)
     {
-        throw new NotImplementedException();
+        var existingPatient = await this._context.Patients.FindAsync(patient.Id);
+
+        if (existingPatient is null)
+        {
+            throw new KeyNotFoundException("No patient found with id: " + patient.Id);
+        }
+        
+        this._context.Entry(existingPatient).CurrentValues.SetValues(patient);
+        
+        await this._context.SaveChangesAsync();
+        
+        return existingPatient;
     }
+    
+    private async Task<string> GenerateUniqueNumExpedienteAsync()
+    {
+        int currentYear = DateTime.Now.Year;
+
+        var counter = await this._context.ExpedienteCounters
+            .FirstOrDefaultAsync(ec => ec.Year == currentYear);
+
+        if (counter == null)
+        {
+            counter = new ExpedienteCounter
+            {
+                Year = currentYear,
+                Counter = 1
+            };
+            this._context.ExpedienteCounters.Add(counter);
+        }
+        else
+        {
+            counter.Counter++;
+            this._context.ExpedienteCounters.Update(counter);
+        }
+
+        string newNum = $"{currentYear}-{counter.Counter}";
+
+        bool exists = await this._context.Patients
+            .AnyAsync(p => p.NumExpediente == newNum);
+
+        if (exists)
+        {
+            // Retry logic for uniqueness
+            for (int i = 0; i < 5; i++)
+            {
+                counter.Counter++;
+                newNum = $"{currentYear}-{counter.Counter}";
+
+                exists = await this._context.Patients.AnyAsync(p => p.NumExpediente == newNum);
+                if (!exists)
+                {
+                    break;
+                }
+            }
+
+            if (exists)
+            {
+                throw new Exception("No se pudo generar un número de expediente único.");
+            }
+        }
+
+        await this._context.SaveChangesAsync();
+        return newNum;
+    }
+
+    
 }

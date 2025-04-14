@@ -9,19 +9,7 @@ public class PatientsConfiguration: BaseEntityConfiguration<Patient>
     {
         base.Configure(builder);
 
-        builder.Property(x => x.Name).IsRequired()
-            .HasMaxLength(100);
-        
-        builder.Property(x => x.BirthDate).IsRequired();
-
-        builder.Property(x => x.FirstLastName)
-            .IsRequired()
-            .HasMaxLength(100);
-
-        builder.Property(x => x.SecondLastName)
-            .HasMaxLength(100);
-        
-        builder.Property(x => x.MiddleName)
+        builder.Property(x => x.Nombre).IsRequired()
             .HasMaxLength(100);
     }
 }

@@ -30,6 +30,11 @@ public class DatabaseSeed
             {
                 Id = Guid.NewGuid().ToString(), Name = "Admin", NormalizedName = "ADMIN"
             };
+
+            var patient = new Patient
+            {
+                
+            };
             context.Users.Add(user);
             context.Roles.Add(role);
             
@@ -40,6 +45,7 @@ public class DatabaseSeed
             });
             
             context.SaveChanges();
+            
         }
     }
 

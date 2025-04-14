@@ -9,25 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/BaseEntityConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Presentation/wwwroot/swagger-ui/custom-auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/20250217074105_InitialCreate.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/20250217074105_InitialCreate.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Domain/HistorialDbContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/20250217065705_InitialCreate_Identity.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/20250217065705_InitialCreate_Identity.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Presentation/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,23 +91,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Debug",
-    "HTTP Request.All in HistorialMedico.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.7483568",
-    "git-widget-placeholder": "dev",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.HistorialMedico: http.executor&quot;: &quot;Debug&quot;,
+    &quot;HTTP Request.All in HistorialMedico.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.7483568&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.HistorialMedico: http">
     <configuration name="All in HistorialMedico" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/HistorialMedico/HistorialMedico.http">
       <method v="2" />
@@ -173,7 +160,9 @@
       <workItem from="1739336498313" duration="14924000" />
       <workItem from="1739757443964" duration="12687000" />
       <workItem from="1739775030899" duration="18495000" />
-      <workItem from="1740116810700" duration="5100000" />
+      <workItem from="1740116810700" duration="8632000" />
+      <workItem from="1740368398915" duration="4928000" />
+      <workItem from="1743415225741" duration="13870000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -223,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739778255297</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns">
+      <option name="closed" value="true" />
+      <created>1740201131604</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740201131604</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +247,8 @@
     <MESSAGE value="Advanced logic for authentication" />
     <MESSAGE value="Separed project by layer&#10;Completed PatientService" />
     <MESSAGE value="Added migrations and more changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added migrations and more changes" />
+    <MESSAGE value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

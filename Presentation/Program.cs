@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Text;
+using Application.PatientService;
 using Core.Entities;
 using Infrastructure;
 using Infrastructure.Context;
@@ -172,6 +173,23 @@ apiV1.MapPost("/patients", [Authorize]
         return Results.Created($"/patients/{result.Id}", result);
     });
 
+apiV1.MapPut("/patients",
+    [Authorize] async (IPatientService patientService, [FromBody] Patient patient) =>
+    {
+        if (patient is null)
+        {
+            return Results.BadRequest("Patient data is required.");
+        }
+
+        var updatedPatient = await patientService.UpdatePatient(patient);
+
+        if (updatedPatient is null)
+        {
+            return Results.NotFound($"Patient with NumExpediente '{patient.NumExpediente}' not found.");
+        }
+
+        return Results.Ok(updatedPatient);
+    });
 
 // User Endpoints
 
@@ -191,7 +209,7 @@ apiV1.MapPost("/auth/login",
         return Results.Ok(token);
     });
 
-app.MapPost("/api/admin/createUser", [Authorize(Policy = "Admin")]
+app.MapPost("/admin/createUser", [Authorize(Policy = "Admin")]
     async (RegisterModel registerModel, UserManager<User> userManager, HttpContext httpContext, IUserService userService) =>
     {
         var result = await userService.CreateUserAsync(registerModel, httpContext.User);

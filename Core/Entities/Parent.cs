@@ -4,8 +4,7 @@ namespace Core.Entities;
 
 public class Parent: BaseEntity
 {
-    [JsonIgnore]
-    public string Name {get; set;}
-    public string? MidleName {get; set;}
-    public string LastName {get; set;}
+    public string Nombre {get; set;}
+    public string Telefono { get; set; }
+    public string Email { get; set; }
 }
