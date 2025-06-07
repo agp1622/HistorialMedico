@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Core.Enums;
 
 namespace Core.Entities;
 
@@ -14,9 +15,10 @@ public class Patient : BaseEntity
     public string NumExpediente { get; set; }
     public string Diagnostico { get; set; }
     public string Nombre { get; set; }
+    public string Apellido { get; set; }
     public DateTime FechaNacimiento { get; set; }
-    public string Edad { get; set; }
-    public string Sexo { get; set; }
+    public string EdadEnPrimeraConsulta { get; set; }
+    public Sexo Sexo { get; set; }
     public string ReferidoPor { get; set; }
     public DateTime FechaConsulta { get; set; }
     public string SeguroMedico { get; set; }
@@ -28,7 +30,7 @@ public class Patient : BaseEntity
     // Embarazo y Parto
     public string Gestacion { get; set; }
     public string Parto { get; set; }
-    public string PesoAlNacer { get; set; }
+    public int PesoAlNacer { get; set; }
 
     // Historial Médico
     public List<MedicalHistory> HistorialMedico { get; set; } = new();

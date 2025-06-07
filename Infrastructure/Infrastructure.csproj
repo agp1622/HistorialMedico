@@ -20,4 +20,10 @@
       <Folder Include="Migrations\Domain\" />
       <Folder Include="Migrations\Identity\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Migrations\Identity\20250222043501_InitialMigration.cs" />
+      <Compile Remove="Migrations\Identity\20250222043501_InitialMigration.Designer.cs" />
+      <Compile Remove="Migrations\Domain\HistorialDbContextModelSnapshot.cs" />
+    </ItemGroup>
 </Project>

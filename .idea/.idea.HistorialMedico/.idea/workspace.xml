@@ -8,13 +8,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="">
+    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="More changes to integrate api with the front end">
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/AttachmentsConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/ExpedienteCountersConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/ParentsConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Enums/Sexo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +59,14 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477051138f1f40de9077b7b1cdc55c6215fb0/ab/8e51c4e5/JwtRegisteredClaimNames.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/a4/f58cb548/IUserRoleStore`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/f7/7591d36e/IUserStore`1.cs" root0="SKIP_HIGHLIGHTING" />
@@ -86,28 +99,30 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2soaVoK0h2P09tmDCsH7fbjTyBL" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.HistorialMedico: http.executor&quot;: &quot;Debug&quot;,
-    &quot;HTTP Request.All in HistorialMedico.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.7483568&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Run",
+    "HTTP Request.All in HistorialMedico.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "XThreadsFramesViewSplitterKey": "0.7483568",
+    "git-widget-placeholder": "dev",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.HistorialMedico: http">
     <configuration name="All in HistorialMedico" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/HistorialMedico/HistorialMedico.http">
       <method v="2" />
@@ -163,6 +178,8 @@
       <workItem from="1740116810700" duration="8632000" />
       <workItem from="1740368398915" duration="4928000" />
       <workItem from="1743415225741" duration="13870000" />
+      <workItem from="1744521006440" duration="18095000" />
+      <workItem from="1749014714781" duration="5159000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -220,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740201131604</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="More changes to integrate api with the front end">
+      <option name="closed" value="true" />
+      <created>1744645792356</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744645792356</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,7 +273,8 @@
     <MESSAGE value="Separed project by layer&#10;Completed PatientService" />
     <MESSAGE value="Added migrations and more changes" />
     <MESSAGE value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
+    <MESSAGE value="More changes to integrate api with the front end" />
+    <option name="LAST_COMMIT_MESSAGE" value="More changes to integrate api with the front end" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
