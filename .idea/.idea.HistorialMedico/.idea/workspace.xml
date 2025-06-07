@@ -8,7 +8,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="" />
+    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="More changes to integrate api with the front end">
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/AttachmentsConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/ExpedienteCountersConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/ParentsConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Enums/Sexo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,24 +31,89 @@
   <component name="DpaMonitoringSettings">
     <option name="firstShow" value="false" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;agp1622&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/agp1622/HistorialMedico.git&quot;,
+    &quot;accountId&quot;: &quot;a0ddcf83-f8a9-4db9-bc9c-0cbb2d565004&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477051138f1f40de9077b7b1cdc55c6215fb0/ab/8e51c4e5/JwtRegisteredClaimNames.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/a4/f58cb548/IUserRoleStore`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/f7/7591d36e/IUserStore`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9ff6fe24f5944b35a381217736eded33290038/6c/0a929cb9/IEntityTypeConfiguration`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1622b8f95d27187bc1fb39bac49bd64e928773df4fda6fcf6271680be54a2/UserManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1750dff95ce6347f7797ec095c5c17196efe67de17ff2666b9992265f0b6/AuthorizeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24116c9a39d9274a98c16b9083d086948f901ce1289686d8da7a3886b19833f2/IdentityServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3fb817e54adc356accb55030a7434f98b3bf4e5e544ecf99ab2cd8d5a601e/TextInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/57f54b4f82b56a06d59c83a36fce97d6774c3ceda2b76c8d09ea472732769/EntityTypeBuilder`.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/77a288e47fae82d884d4b7131707fda84e882cde146aff472dbc8c9c3e9e46d/IdentityServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d382df578ec93391918cfaa4ce7f4b8f35c9aed1241d6556dc9be26df13c/IdentityUser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e25cce28490c87faaf15522967e96692c1829b521f6b7a4fc8bde524eec/IdentityRole.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/93ae622aa81491a6b9920b22434c6c61ac967acd635abfda9f3ecb2a7a7d626/Results.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9fc14c9d50268c83871a1e44d9a3301092ce593c973f486af9d6d56482cff013/IdentityUserRole.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a0b45f29f34f594814a7b1fbc25fe5ef3c18257956ed4f4fbfa68717db58/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a984a133191d26625f45e85cc27e20cad64f4a6ecb6263b4c17bc55965a5/String.Manipulation.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c15c9b5c544ead29477e597aa7132938ddec0fd10de22323fc08f689dcff2c8/InvariantModeCasing.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e6ffa07170418d752d8a58b1274f31a9a168653dc121755eb77a3f8fea12/PasswordHasher.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f9342fb513b7b524925c79d9822cd3ecaf072c50231aa3b469875f4c2cdf/IdentityDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="SWEA" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2soaVoK0h2P09tmDCsH7fbjTyBL" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Debug",
+    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Run",
+    "HTTP Request.All in HistorialMedico.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "RunOnceActivity.git.unshallow": "true",
+    "XThreadsFramesViewSplitterKey": "0.7483568",
+    "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -45,8 +124,11 @@
   }
 }]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.HistorialMedico: http">
+    <configuration name="All in HistorialMedico" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/HistorialMedico/HistorialMedico.http">
+      <method v="2" />
+    </configuration>
     <configuration name="HistorialMedico: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/HistorialMedico/HistorialMedico.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Presentation/Presentation.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
       <option name="LAUNCH_PROFILE_NAME" value="http" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -61,7 +143,7 @@
       </method>
     </configuration>
     <configuration name="HistorialMedico: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/HistorialMedico/HistorialMedico.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Presentation/Presentation.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
       <option name="LAUNCH_PROFILE_NAME" value="https" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -75,6 +157,11 @@
         <option name="Build" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.All in HistorialMedico" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,8 +171,81 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739124409077</updated>
-      <workItem from="1739124410683" duration="712000" />
+      <workItem from="1739124410683" duration="15275000" />
+      <workItem from="1739336498313" duration="14924000" />
+      <workItem from="1739757443964" duration="12687000" />
+      <workItem from="1739775030899" duration="18495000" />
+      <workItem from="1740116810700" duration="8632000" />
+      <workItem from="1740368398915" duration="4928000" />
+      <workItem from="1743415225741" duration="13870000" />
+      <workItem from="1744521006440" duration="18095000" />
+      <workItem from="1749014714781" duration="5159000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1739125306673</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739125306673</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added authorization and authentication middleware">
+      <option name="closed" value="true" />
+      <created>1739126928094</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739126928094</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added swagger integration">
+      <option name="closed" value="true" />
+      <created>1739127522424</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739127522424</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Advanced logic for authentication">
+      <option name="closed" value="true" />
+      <created>1739340370619</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739340370619</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Separed project by layer&#10;Completed PatientService">
+      <option name="closed" value="true" />
+      <created>1739778222859</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1739778222859</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added migrations and more changes">
+      <option name="closed" value="true" />
+      <created>1739778255297</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739778255297</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns">
+      <option name="closed" value="true" />
+      <created>1740201131604</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740201131604</updated>
+    </task>
+    <task id="LOCAL-00008" summary="More changes to integrate api with the front end">
+      <option name="closed" value="true" />
+      <created>1744645792356</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744645792356</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,7 +253,46 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="Added authorization and authentication middleware" />
+    <MESSAGE value="Added swagger integration" />
+    <MESSAGE value="Advanced logic for authentication" />
+    <MESSAGE value="Separed project by layer&#10;Completed PatientService" />
+    <MESSAGE value="Added migrations and more changes" />
+    <MESSAGE value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
+    <MESSAGE value="More changes to integrate api with the front end" />
+    <option name="LAST_COMMIT_MESSAGE" value="More changes to integrate api with the front end" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Application/UserService/UserService.cs</url>
+          <line>31</line>
+          <properties documentPath="$PROJECT_DIR$/Application/UserService/UserService.cs" containingFunctionPresentation="Method 'CreateUserAsync'">
+            <startOffsets>
+              <option value="1014" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1070" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
