@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities;
 
-public class ExpedienteCounter
+public class ExpedienteCounter: BaseEntity
 {
-    [Key]
     public int Year { get; set; }
     public int Counter { get; set; }
 }

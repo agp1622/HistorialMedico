@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Application.PatientService;
 using Core.Entities;
@@ -8,6 +9,8 @@ using Presentation.Domain;
 using Presentation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +21,17 @@ using User = Core.Entities.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var key = "YourSuperSecretKeyHere"u8.ToArray(); // Replace with a secure key
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 
 // Services
 
@@ -38,11 +51,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
         };
     });
+
 builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -86,7 +100,10 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50MB limit
+});
 
 builder.Services.AddAuthorization();
 
@@ -95,6 +112,13 @@ builder.Services.AddAuthorization();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+app.UseCors("AllowAll");
+app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {
@@ -113,10 +137,12 @@ if (app.Environment.IsDevelopment())
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var dbContext = scope.ServiceProvider.GetService<HistorialDbContext>();
+    context.Database.EnsureCreated();
     dbContext.Database.EnsureCreated();
-    DatabaseSeed.Unseed(dbContext);
-    DatabaseSeed.Seed(dbContext);
+    DatabaseSeed.Unseed(context, dbContext);
+    DatabaseSeed.Seed(context, dbContext);
 }
 
 app.UseHttpsRedirection();
@@ -153,14 +179,23 @@ apiV1.MapGet("/weatherforecast",
 
 // Patients controllers
 
-apiV1.MapGet("/patients", [Authorize]
+apiV1.MapGet("/patients", 
     async (IPatientService patientService, int pageNumber = 1, int pageSize = 10, int maxPages = 5) =>
     {
         var patients = await patientService.GetPatients(pageNumber, pageSize, maxPages);
         return Results.Ok(patients);
     });
 
-apiV1.MapPost("/patients", [Authorize]
+apiV1.MapGet("/patient", 
+    async (IPatientService patientService, string id ) =>
+    {
+        
+        
+        var patient = await patientService.GetPatient(Guid.Parse(id));
+        return Results.Ok(patient);
+    });
+
+apiV1.MapPost("/patients", 
     async (IPatientService patientService, Patient patient) =>
     {
         if (patient == null)
@@ -174,48 +209,474 @@ apiV1.MapPost("/patients", [Authorize]
     });
 
 apiV1.MapPut("/patients",
-    [Authorize] async (IPatientService patientService, [FromBody] Patient patient) =>
+     async (IPatientService patientService, [FromBody] Patient patient, Guid id) =>
     {
-        if (patient is null)
-        {
-            return Results.BadRequest("Patient data is required.");
-        }
-
-        var updatedPatient = await patientService.UpdatePatient(patient);
-
-        if (updatedPatient is null)
-        {
-            return Results.NotFound($"Patient with NumExpediente '{patient.NumExpediente}' not found.");
-        }
+        var updatedPatient = await patientService.UpdatePatient(patient, id);
 
         return Results.Ok(updatedPatient);
     });
 
-// User Endpoints
-
-apiV1.MapPost("/auth/login",
-    async (LoginModel loginModel,
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        IUserService userService) =>
+apiV1.MapDelete("/patient",
+    async (IPatientService patientService, [FromQuery] Guid id) =>
     {
-        var user = await userManager.FindByNameAsync(loginModel.Username);
-        if (user == null) return Results.Unauthorized();
+        if (id == Guid.Empty)
+        {
+            return Results.BadRequest("Patient id is required.");
+        }
+        
+        var deleted= await patientService.DeletePatient(id);
 
-        var result = await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-        if (!result.Succeeded) return Results.Unauthorized();
-
-        var token = userService.GenerateJwtToken(user);
-        return Results.Ok(token);
+        return deleted ? Results.NotFound() : Results.NoContent();
     });
 
-app.MapPost("/admin/createUser", [Authorize(Policy = "Admin")]
-    async (RegisterModel registerModel, UserManager<User> userManager, HttpContext httpContext, IUserService userService) =>
+apiV1.MapPost("patient/{patientId:guid}/history",
+    async (IPatientService patientService, Guid patientId, MedicalHistory history) =>
     {
+        if (string.IsNullOrWhiteSpace(history.Nota))
+        {
+            return Results.BadRequest("Note content is required");
+        }
+        
+        await patientService.AddMedicalHistory(history, patientId);
+        
+        var updatedPatient = await patientService.GetPatient(patientId);
+        return Results.Ok(updatedPatient);
+    });
+
+// Attachment Minimal API Endpoints using PatientService
+
+// Upload attachment
+apiV1.MapPost("patient/{patientId:guid}/attachments", async (
+    Guid patientId,
+    IFormFile file,
+    IPatientService patientService,
+    IWebHostEnvironment environment) =>
+{
+    try
+    {
+        var uploadsPath = environment.WebRootPath ?? environment.ContentRootPath;
+        var attachment = await patientService.AddAttachmentAsync(patientId, file, uploadsPath);
+
+        return Results.Ok(new
+        {
+            Id = attachment.Id,
+            Name = attachment.Name,
+            Size = attachment.Size,
+            UploadDate = attachment.UploadDate,
+            DownloadUrl = $"/api/patient/{patientId}/attachments/{attachment.Id}/download"
+        });
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error uploading file: {ex.Message}");
+    }
+})
+.WithName("UploadAttachment")
+.WithTags("Attachments")
+.WithOpenApi()
+.DisableAntiforgery();
+
+// Get all attachments for a patient
+apiV1.MapGet("patient/{patientId:guid}/attachments", async (
+    Guid patientId,
+    IPatientService patientService) =>
+{
+    try
+    {
+        var attachments = await patientService.GetPatientAttachmentsAsync(patientId);
+
+        var result = attachments.Select(a => new
+        {
+            Id = a.Id,
+            Name = a.Name,
+            Size = a.Size,
+            UploadDate = a.UploadDate,
+            DownloadUrl = $"/api/patient/{patientId}/attachments/{a.Id}/download"
+        });
+
+        return Results.Ok(result);
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error retrieving attachments: {ex.Message}");
+    }
+})
+.WithName("GetPatientAttachments")
+.WithTags("Attachments")
+.WithOpenApi();
+
+// Download attachment
+apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}/download", async (
+    Guid patientId,
+    Guid attachmentId,
+    IPatientService patientService) =>
+{
+    try
+    {
+        var fileResult = await patientService.GetAttachmentFileAsync(patientId, attachmentId);
+
+        if (fileResult == null)
+        {
+            return Results.NotFound("Attachment not found or file not accessible");
+        }
+
+        var (fileData, contentType, fileName) = fileResult.Value;
+        return Results.File(fileData, contentType, fileName);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error downloading file: {ex.Message}");
+    }
+})
+.WithName("DownloadAttachment")
+.WithTags("Attachments")
+.WithOpenApi();
+
+// Delete attachment
+apiV1.MapDelete("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
+    Guid patientId,
+    Guid attachmentId,
+    IPatientService patientService) =>
+{
+    try
+    {
+        var deleted = await patientService.DeleteAttachmentAsync(patientId, attachmentId);
+
+        if (!deleted)
+        {
+            return Results.NotFound("Attachment not found");
+        }
+
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error deleting attachment: {ex.Message}");
+    }
+})
+.WithName("DeleteAttachment")
+.WithTags("Attachments")
+.WithOpenApi();
+
+// Get attachment info (metadata only)
+apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
+    Guid patientId,
+    Guid attachmentId,
+    IPatientService patientService) =>
+{
+    try
+    {
+        var attachment = await patientService.GetAttachmentAsync(patientId, attachmentId);
+
+        if (attachment == null)
+        {
+            return Results.NotFound("Attachment not found");
+        }
+
+        return Results.Ok(new
+        {
+            Id = attachment.Id,
+            Name = attachment.Name,
+            Size = attachment.Size,
+            UploadDate = attachment.UploadDate,
+            DownloadUrl = $"/api/patient/{patientId}/attachments/{attachment.Id}/download"
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error retrieving attachment info: {ex.Message}");
+    }
+})
+.WithName("GetAttachmentInfo")
+.WithTags("Attachments")
+.WithOpenApi();
+
+
+// Helper method for validation
+static bool IsValidModel<T>(T model, out List<string> errors)
+{
+    errors = new List<string>();
+    var context = new ValidationContext(model);
+    var results = new List<ValidationResult>();
+    
+    if (!Validator.TryValidateObject(model, context, results, true))
+    {
+        errors = results.Select(r => r.ErrorMessage ?? "Validation error").ToList();
+        return false;
+    }
+    return true;
+}
+
+// Login endpoint
+apiV1.MapPost("auth/login", async (
+    LoginModel loginModel,
+    IUserService userService) =>
+{
+    try
+    {
+        if (!IsValidModel(loginModel, out var errors))
+        {
+            return Results.BadRequest(new { message = "Invalid login data", errors });
+        }
+
+        var result = await userService.LoginAsync(loginModel);
+        
+        if (result == null)
+        {
+            return Results.Unauthorized();
+        }
+
+        return Results.Ok(result);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error during login: {ex.Message}");
+    }
+})
+.WithName("Login")
+.WithOpenApi();
+
+// Create admin user (for initial setup)
+apiV1.MapPost("auth/create-admin", async (
+    RegisterModel registerModel,
+    IUserService userService) =>
+{
+    try
+    {
+        if (!IsValidModel(registerModel, out var errors))
+        {
+            return Results.BadRequest(new { message = "Invalid registration data", errors });
+        }
+
+        var result = await userService.CreateAdminUserAsync(registerModel);
+
+        if (result.Succeeded)
+        {
+            return Results.Ok(new { message = "Admin user created successfully" });
+        }
+
+        return Results.BadRequest(new { 
+            message = "Failed to create admin user",
+            errors = result.Errors.Select(e => e.Description)
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error creating admin user: {ex.Message}");
+    }
+})
+.WithName("CreateAdmin")
+.WithOpenApi();
+
+// Create user (Admin only)
+apiV1.MapPost("users/", async (
+    RegisterModel registerModel,
+    IUserService userService,
+    HttpContext httpContext) =>
+{
+    try
+    {
+        if (!IsValidModel(registerModel, out var errors))
+        {
+            return Results.BadRequest(new { message = "Invalid user data", errors });
+        }
+
         var result = await userService.CreateUserAsync(registerModel, httpContext.User);
 
-        return result.Succeeded ? Results.Ok("User created successfully") : Results.BadRequest(result.Errors.FirstOrDefault()?.Description);
-    });
+        if (result.Succeeded)
+        {
+            return Results.Ok(new { message = "User created successfully" });
+        }
+
+        return Results.BadRequest(new {
+            message = "Failed to create user",
+            errors = result.Errors.Select(e => e.Description)
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error creating user: {ex.Message}");
+    }
+})
+.WithName("CreateUser")
+.WithOpenApi();
+
+// Get all users (Admin only)
+apiV1.MapGet("users", async (
+    IUserService userService) =>
+{
+    try
+    {
+        var users = await userService.GetAllUsersAsync();
+        
+        var userList = users.Select(u => new
+        {
+            Id = u.Id,
+            Username = u.UserName,
+            Email = u.Email,
+            FullName = u.FullName,
+            FirstName = u.FirstName,
+            LastName = u.LastName,
+            MiddleName = u.MiddleName,
+            SecondLastName = u.SecondLastName
+        });
+
+        return Results.Ok(userList);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error retrieving users: {ex.Message}");
+    }
+})
+.WithName("GetAllUsers")
+.WithOpenApi();
+
+// Get user by ID (Admin only)
+apiV1.MapGet("users/{userId}",  async (
+    string userId,
+    IUserService userService) =>
+{
+    try
+    {
+        var user = await userService.GetUserByIdAsync(userId);
+
+        if (user == null)
+        {
+            return Results.NotFound(new { message = "User not found" });
+        }
+
+        var userInfo = new
+        {
+            Id = user.Id,
+            Username = user.UserName,
+            Email = user.Email,
+            FullName = user.FullName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            MiddleName = user.MiddleName,
+            SecondLastName = user.SecondLastName
+        };
+
+        return Results.Ok(userInfo);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error retrieving user: {ex.Message}");
+    }
+})
+.WithName("GetUserById")
+.WithOpenApi();
+
+// Update user (Admin only)
+apiV1.MapPut("users/{userId}", async (
+    string userId,
+    RegisterModel updateModel,
+    IUserService userService) =>
+{
+    try
+    {
+        if (!IsValidModel(updateModel, out var errors))
+        {
+            return Results.BadRequest(new { message = "Invalid user data", errors });
+        }
+
+        var result = await userService.UpdateUserAsync(userId, updateModel);
+
+        if (result.Succeeded)
+        {
+            return Results.Ok(new { message = "User updated successfully" });
+        }
+
+        return Results.BadRequest(new {
+            message = "Failed to update user",
+            errors = result.Errors.Select(e => e.Description)
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error updating user: {ex.Message}");
+    }
+})
+.WithName("UpdateUser")
+.WithOpenApi();
+
+// Delete user (Admin only)
+apiV1.MapDelete("users/{userId}", async (
+    string userId,
+    IUserService userService) =>
+{
+    try
+    {
+        var result = await userService.DeleteUserAsync(userId);
+
+        if (result.Succeeded)
+        {
+            return Results.Ok(new { message = "User deleted successfully" });
+        }
+
+        return Results.BadRequest(new {
+            message = "Failed to delete user",
+            errors = result.Errors.Select(e => e.Description)
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error deleting user: {ex.Message}");
+    }
+})
+.WithName("DeleteUser")
+.WithOpenApi();
+
+// Get current user info (Authenticated users)
+apiV1.MapGet("users/me", async (
+    HttpContext httpContext,
+    UserManager<User> userManager) =>
+{
+    try
+    {
+        var user = await userManager.GetUserAsync(httpContext.User);
+
+        if (user == null)
+        {
+            return Results.NotFound(new { message = "User not found" });
+        }
+
+        var roles = await userManager.GetRolesAsync(user);
+
+        var userInfo = new
+        {
+            Id = user.Id,
+            Username = user.UserName,
+            Email = user.Email,
+            FullName = user.FullName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            MiddleName = user.MiddleName,
+            SecondLastName = user.SecondLastName,
+            Roles = roles
+        };
+
+        return Results.Ok(userInfo);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error retrieving current user: {ex.Message}");
+    }
+})
+.WithName("GetCurrentUser")
+.WithOpenApi();
 
 app.Run();
 

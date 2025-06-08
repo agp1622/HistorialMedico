@@ -8,20 +8,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="More changes to integrate api with the front end">
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/AttachmentsConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/ExpedienteCountersConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/ParentsConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Core/Enums/Sexo.cs" afterDir="false" />
+    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/PatientService/JwtSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/JwtSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/UserService/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/UserService/RegisterModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/RegisterModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/UserService/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/Parent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Parent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Attachment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Attachment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/ExpedienteCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/ExpedienteCounter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Role.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Role.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,23 +69,28 @@
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/agp1622/HistorialMedico.git&quot;,
     &quot;accountId&quot;: &quot;a0ddcf83-f8a9-4db9-bc9c-0cbb2d565004&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;agp1622&quot;,
+    &quot;repository&quot;: &quot;HistorialMedico&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Infrastructure/Context/HistorialDbContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/pavelarias/Documents/Projects/HistorialMedico/Presentation/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/477051138f1f40de9077b7b1cdc55c6215fb0/ab/8e51c4e5/JwtRegisteredClaimNames.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/a4/f58cb548/IUserRoleStore`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823b9d4952dd413492ac24b0fb6f99d72b728/f7/7591d36e/IUserStore`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9ff6fe24f5944b35a381217736eded33290038/6c/0a929cb9/IEntityTypeConfiguration`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1622b8f95d27187bc1fb39bac49bd64e928773df4fda6fcf6271680be54a2/UserManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1750dff95ce6347f7797ec095c5c17196efe67de17ff2666b9992265f0b6/AuthorizeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2398466669598f2207a08137823e3d6321e06362af868e1292398663f0fd14/Size.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/24116c9a39d9274a98c16b9083d086948f901ce1289686d8da7a3886b19833f2/IdentityServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3fb817e54adc356accb55030a7434f98b3bf4e5e544ecf99ab2cd8d5a601e/TextInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/57f54b4f82b56a06d59c83a36fce97d6774c3ceda2b76c8d09ea472732769/EntityTypeBuilder`.cs" root0="FORCE_HIGHLIGHTING" />
@@ -82,6 +100,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/93ae622aa81491a6b9920b22434c6c61ac967acd635abfda9f3ecb2a7a7d626/Results.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9fc14c9d50268c83871a1e44d9a3301092ce593c973f486af9d6d56482cff013/IdentityUserRole.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a0b45f29f34f594814a7b1fbc25fe5ef3c18257956ed4f4fbfa68717db58/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a3a2943740096e0fc472456147a4ca9c22db1be62257205bbba9f0e648c0/DatabaseFacade.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a984a133191d26625f45e85cc27e20cad64f4a6ecb6263b4c17bc55965a5/String.Manipulation.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c15c9b5c544ead29477e597aa7132938ddec0fd10de22323fc08f689dcff2c8/InvariantModeCasing.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e6ffa07170418d752d8a58b1274f31a9a168653dc121755eb77a3f8fea12/PasswordHasher.cs" root0="FORCE_HIGHLIGHTING" />
@@ -108,18 +127,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Run",
+    ".NET Launch Settings Profile.HistorialMedico: http.executor": "Debug",
     "HTTP Request.All in HistorialMedico.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.7483568",
+    "XThreadsFramesViewSplitterKey": "0.77624524",
     "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "reference.settings.deploy.options",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -157,6 +176,19 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="HTTP Request.All in HistorialMedico" />
@@ -180,6 +212,8 @@
       <workItem from="1743415225741" duration="13870000" />
       <workItem from="1744521006440" duration="18095000" />
       <workItem from="1749014714781" duration="5159000" />
+      <workItem from="1749315526840" duration="2911000" />
+      <workItem from="1749319626122" duration="35070000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -245,7 +279,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744645792356</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Upload latest changes">
+      <option name="closed" value="true" />
+      <created>1749315539590</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1749315539590</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,23 +316,63 @@
     <MESSAGE value="Added migrations and more changes" />
     <MESSAGE value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
     <MESSAGE value="More changes to integrate api with the front end" />
-    <option name="LAST_COMMIT_MESSAGE" value="More changes to integrate api with the front end" />
+    <MESSAGE value="Upload latest changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload latest changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Application/UserService/UserService.cs</url>
-          <line>31</line>
-          <properties documentPath="$PROJECT_DIR$/Application/UserService/UserService.cs" containingFunctionPresentation="Method 'CreateUserAsync'">
+          <url>file://$PROJECT_DIR$/Application/PatientService/PatientService.cs</url>
+          <line>83</line>
+          <properties documentPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" containingFunctionPresentation="Method 'UpdatePatient'">
             <startOffsets>
-              <option value="1014" />
+              <option value="2375" />
             </startOffsets>
             <endOffsets>
-              <option value="1070" />
+              <option value="2440" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
+          <line>213</line>
+          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="6313" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6382" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
+          <line>550</line>
+          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="15299" />
+            </startOffsets>
+            <endOffsets>
+              <option value="15996" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
+          <line>646</line>
+          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="17699" />
+            </startOffsets>
+            <endOffsets>
+              <option value="18497" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

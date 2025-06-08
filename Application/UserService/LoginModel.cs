@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Presentation.Services;
 
 public class LoginModel
 {
-    public string Username { get; set; }  
-    public string Password { get; set; }
+    [Required]
+    public string Username { get; set; } = string.Empty;
+    
+    [Required]
+    public string Password { get; set; } = string.Empty;
 }
