@@ -7,32 +7,54 @@ namespace Core.Entities;
 
 public class Patient : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
-
-    // Información Personal
-    public string NumExpediente { get; set; }
-    public string Diagnostico { get; set; }
-    public string Nombre { get; set; }
-    public string Apellido { get; set; }
-    public DateTime FechaNacimiento { get; set; }
-    public string EdadEnPrimeraConsulta { get; set; }
-    public Sexo Sexo { get; set; }
-    public string ReferidoPor { get; set; }
-    public DateTime FechaConsulta { get; set; }
-    public string SeguroMedico { get; set; }
-
-    // Datos de los Padres
-    public Parent Madre { get; set; }
-    public Parent Padre { get; set; }
-
-    // Embarazo y Parto
-    public string Gestacion { get; set; }
-    public string Parto { get; set; }
-    public int PesoAlNacer { get; set; }
-
-    // Historial Médico
-    public List<MedicalHistory> HistorialMedico { get; set; } = new();
+    public string NumeroExpediente { get; set; } = string.Empty;
+    
+    [Required]
+    public string Nombre { get; set; } = string.Empty;
+    
+    public string Sexo { get; set; } = string.Empty;
+    
+    public string Edad { get; set; } = string.Empty;
+    
+    public string Diagnostico { get; set; } = string.Empty;
+    
+    public string ReferidoPor { get; set; } = string.Empty;
+    
+    [DataType(DataType.Date)]
+    public string FechaNacimiento { get; set; } = string.Empty; // ISO date string
+    
+    [DataType(DataType.Date)]
+    public string FechaConsulta { get; set; } = string.Empty;   // ISO date string
+    
+    public string SeguroMedico { get; set; } = string.Empty;
+    
+    public string Alergias { get; set; } = string.Empty;
+    
+    public string Madre { get; set; } = string.Empty;
+    
+    [Phone]
+    public string MadreTelefono { get; set; } = string.Empty;
+    
+    [EmailAddress]
+    public string MadreCorreo { get; set; } = string.Empty;
+    
+    public string Padre { get; set; } = string.Empty;
+    
+    [Phone]
+    public string PadreTelefono { get; set; } = string.Empty;
+    
+    [EmailAddress]
+    public string PadreCorreo { get; set; } = string.Empty;
+    
+    public string Gestacion { get; set; } = string.Empty;
+    
+    public string Parto { get; set; } = string.Empty;
+    
+    public string PesoAlNacer { get; set; } = string.Empty;
+    
+    public string PesoUnidad { get; set; } = string.Empty;
+    
+    public List<MedicalHistory> Historial { get; set; } = new();
+    
     public List<Attachment> Attachments { get; set; } = new();
 }
