@@ -8,31 +8,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="">
+    <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="Connecting back end to front end">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/PatientService/JwtSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/JwtSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UserService/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/IUserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UserService/RegisterModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/RegisterModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/UserService/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/MedicalHistoriesConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/PatientsConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/RolesConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Configurations/UsersConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/Attachment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Attachment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/BaseEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/ExpedienteCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/ExpedienteCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/MedicalHistory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/Role.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Role.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Entities/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/HistorialMedico.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/DatabaseSeed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Presentation.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Presentation.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Presentation/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
     </list>
@@ -112,7 +93,7 @@
 }</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="SWEA" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -131,7 +112,7 @@
     "HTTP Request.All in HistorialMedico.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.77624524",
+    "XThreadsFramesViewSplitterKey": "0.6424752",
     "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -213,7 +194,7 @@
       <workItem from="1744521006440" duration="18095000" />
       <workItem from="1749014714781" duration="5159000" />
       <workItem from="1749315526840" duration="2911000" />
-      <workItem from="1749319626122" duration="35070000" />
+      <workItem from="1749319626122" duration="48525000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -287,7 +268,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749315539590</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Connecting back end to front end">
+      <option name="closed" value="true" />
+      <created>1749417231096</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1749417231096</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,62 +306,24 @@
     <MESSAGE value="Added secure endpoints&#10;Added roles&#10;Added new created-updated columns" />
     <MESSAGE value="More changes to integrate api with the front end" />
     <MESSAGE value="Upload latest changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upload latest changes" />
+    <MESSAGE value="Connecting back end to front end" />
+    <option name="LAST_COMMIT_MESSAGE" value="Connecting back end to front end" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Application/PatientService/PatientService.cs</url>
-          <line>83</line>
-          <properties documentPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" containingFunctionPresentation="Method 'UpdatePatient'">
-            <startOffsets>
-              <option value="2375" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2440" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
-          <line>213</line>
+          <line>700</line>
           <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
             <startOffsets>
-              <option value="6313" />
+              <option value="21138" />
             </startOffsets>
             <endOffsets>
-              <option value="6382" />
+              <option value="21791" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
-          <line>550</line>
-          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
-            <startOffsets>
-              <option value="15299" />
-            </startOffsets>
-            <endOffsets>
-              <option value="15996" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
-          <line>646</line>
-          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
-            <startOffsets>
-              <option value="17699" />
-            </startOffsets>
-            <endOffsets>
-              <option value="18497" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -182,6 +182,8 @@ public class UserService : IUserService
         }
     }
 
+    // REPLACE your GenerateJwtToken method in UserService with this:
+
     public string GenerateJwtToken(User user, IList<string> roles)
     {
         var key = Encoding.UTF8.GetBytes(_settings.SecretKey);
@@ -195,10 +197,10 @@ public class UserService : IUserService
             new("fullName", user.FullName)
         };
 
-        // Add role claims
+        // 🎯 FIXED: Add role claims using the short name that maps correctly
         foreach (var role in roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("role", role));  // Use "role" instead of ClaimTypes.Role
         }
 
         var tokenDescriptor = new SecurityTokenDescriptor
