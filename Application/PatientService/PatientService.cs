@@ -305,55 +305,96 @@ public class PatientService: IPatientService
         };
     }
     
-    private async Task<string> GenerateUniqueNumExpedienteAsync()
+private async Task<string> GenerateUniqueNumExpedienteAsync()
+{
+    int currentYear = DateTime.Now.Year;
+    const int maxRetries = 10;
+    
+    for (int attempt = 0; attempt < maxRetries; attempt++)
     {
-        int currentYear = DateTime.Now.Year;
-
-        var counter = await this._context.ExpedienteCounters
-            .FirstOrDefaultAsync(ec => ec.Year == currentYear);
-
-        if (counter == null)
+        try
         {
-            counter = new ExpedienteCounter
+            // Use a transaction to ensure atomicity
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            
+            try
             {
-                Year = currentYear,
-                Counter = 1
-            };
-            this._context.ExpedienteCounters.Add(counter);
-        }
-        else
-        {
-            counter.Counter++;
-            this._context.ExpedienteCounters.Update(counter);
-        }
+                // Lock the counter row for update to prevent race conditions
+                var counter = await _context.ExpedienteCounters
+                    .Where(ec => ec.Year == currentYear)
+                    .FirstOrDefaultAsync();
 
-        string newNum = $"{currentYear}-{counter.Counter}";
-
-        bool exists = await this._context.Patients
-            .AnyAsync(p => p.NumeroExpediente == newNum);
-
-        if (exists)
-        {
-            // Retry logic for uniqueness
-            for (int i = 0; i < 5; i++)
-            {
-                counter.Counter++;
-                newNum = $"{currentYear}-{counter.Counter}";
-
-                exists = await this._context.Patients.AnyAsync(p => p.NumeroExpediente == newNum);
-                if (!exists)
+                if (counter == null)
                 {
-                    break;
+                    // Create new counter for this year
+                    counter = new ExpedienteCounter
+                    {
+                        Year = currentYear,
+                        Counter = 0 // Start at 0, will be incremented to 1
+                    };
+                    _context.ExpedienteCounters.Add(counter);
+                    await _context.SaveChangesAsync(); // Save to get the ID
                 }
-            }
 
-            if (exists)
+                // Increment counter
+                counter.Counter++;
+                _context.ExpedienteCounters.Update(counter);
+
+                // Generate the expediente number
+                string newNumExpediente = $"{currentYear}-{counter.Counter}";
+
+                // Double-check uniqueness (should not be necessary with proper counter, but safety check)
+                bool exists = await _context.Patients
+                    .AnyAsync(p => p.NumeroExpediente == newNumExpediente);
+
+                if (exists)
+                {
+                    // This should rarely happen with proper counter management
+                    // But if it does, we need to find the next available number
+                    var maxExistingNumber = await _context.Patients
+                        .Where(p => p.NumeroExpediente.StartsWith($"{currentYear}-"))
+                        .Select(p => p.NumeroExpediente)
+                        .ToListAsync();
+
+                    int maxCounter = 0;
+                    foreach (var expediente in maxExistingNumber)
+                    {
+                        if (expediente.Split('-').Length == 2 && 
+                            int.TryParse(expediente.Split('-')[1], out int number))
+                        {
+                            maxCounter = Math.Max(maxCounter, number);
+                        }
+                    }
+
+                    counter.Counter = maxCounter + 1;
+                    newNumExpediente = $"{currentYear}-{counter.Counter}";
+                }
+
+                // Save the counter change
+                await _context.SaveChangesAsync();
+                
+                // Commit the transaction
+                await transaction.CommitAsync();
+                
+                return newNumExpediente;
+            }
+            catch
             {
-                throw new Exception("No se pudo generar un número de expediente único.");
+                await transaction.RollbackAsync();
+                throw;
             }
         }
-
-        await this._context.SaveChangesAsync();
-        return newNum;
+        catch (DbUpdateConcurrencyException)
+        {
+            // Another thread updated the counter, retry
+            if (attempt == maxRetries - 1)
+                throw new Exception("No se pudo generar un número de expediente único después de varios intentos.");
+            
+            // Wait a small random time before retrying
+            await Task.Delay(Random.Shared.Next(10, 50));
+        }
     }
+    
+    throw new Exception("No se pudo generar un número de expediente único."); 
+}
 }
