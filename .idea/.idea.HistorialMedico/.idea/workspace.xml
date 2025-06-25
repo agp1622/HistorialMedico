@@ -9,13 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7480ba7e-b713-4594-a6bd-9b0df2160d72" name="Changes" comment="Connecting back end to front end">
+      <change afterPath="$PROJECT_DIR$/Core/Configurations/AdditionalPhonesConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Entities/AdditionalPhone.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HistorialMedico/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/IPatientService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/PatientService/PatientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/LoginModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/UserService/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/UserService/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Presentation/Presentation.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Presentation.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Entities/Patient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Entities/Patient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Context/HistorialDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/HistorialDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Migrations/Identity/HistorialDbContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Presentation/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Presentation/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,7 +115,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "XThreadsFramesViewSplitterKey": "0.6424752",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "feature/add-phone-entity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -172,6 +174,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.All in HistorialMedico" />
         <item itemvalue="HTTP Request.All in HistorialMedico" />
       </list>
     </recent_temporary>
@@ -314,16 +317,29 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
-          <line>700</line>
+          <line>675</line>
           <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
             <startOffsets>
-              <option value="21138" />
+              <option value="19750" />
             </startOffsets>
             <endOffsets>
-              <option value="21791" />
+              <option value="20403" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Presentation/Program.cs</url>
+          <line>477</line>
+          <properties documentPath="$PROJECT_DIR$/Presentation/Program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="14523" />
+            </startOffsets>
+            <endOffsets>
+              <option value="14591" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

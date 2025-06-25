@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,27 +6,26 @@ using Application.PatientService;
 using Core.Entities;
 using Infrastructure;
 using Infrastructure.Context;
-using Presentation.Domain;
-using Presentation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presentation.Domain;
 using Presentation.Domain.Services;
+using Presentation.Services;
 using User = Core.Entities.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowAll", policyBuilder =>
     {
-        builder
+        policyBuilder
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader();
@@ -40,7 +38,6 @@ builder.Services.AddDbContext<HistorialDbContext>(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDb")));
 
-// Clear the default claim mappings FIRST
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 builder.Services.AddAuthentication(options =>
@@ -54,7 +51,6 @@ builder.Services.AddAuthentication(options =>
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     
-    // Enhanced debugging events
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = context =>
@@ -73,7 +69,6 @@ builder.Services.AddAuthentication(options =>
                 Console.WriteLine($"   📋 {claim.Type} = '{claim.Value}'");
             }
             
-            // Specifically check role claims
             var roles = context.Principal.FindAll(ClaimTypes.Role).Select(c => c.Value);
             Console.WriteLine($"🎭 Roles found: [{string.Join(", ", roles)}]");
             
@@ -82,29 +77,23 @@ builder.Services.AddAuthentication(options =>
         
         OnAuthenticationFailed = context =>
         {
-            Console.WriteLine($"🔴 ❌ AUTHENTICATION FAILED!");
+            Console.WriteLine("\ud83d\udd34 \u274c AUTHENTICATION FAILED!");
             Console.WriteLine($"🔴 Exception: {context.Exception.Message}");
             Console.WriteLine($"🔴 Exception Type: {context.Exception.GetType().Name}");
             if (context.Exception.InnerException != null)
             {
                 Console.WriteLine($"🔴 Inner Exception: {context.Exception.InnerException.Message}");
             }
-            
-            // Fixed: Don't try to set response if already started
-            if (!context.Response.HasStarted)
-            {
-                context.NoResult();
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("{\"message\":\"Unauthorized - Token validation failed\"}");
-            }
-            return Task.CompletedTask;
+
+            if (context.Response.HasStarted) return Task.CompletedTask;
+            context.NoResult();
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+            return context.Response.WriteAsync("{\"message\":\"Unauthorized - Token validation failed\"}");
         },
         
         OnChallenge = context =>
         {
-            Console.WriteLine($"🟠 Challenge triggered: {context.Error} - {context.ErrorDescription}");
-            // Don't let the default challenge run to avoid response already started error
             context.HandleResponse();
             if (!context.Response.HasStarted)
             {
@@ -116,7 +105,6 @@ builder.Services.AddAuthentication(options =>
         }
     };
     
-    // Get configuration values
     var jwtIssuer = builder.Configuration["JwtSettings:Issuer"];
     var jwtAudience = builder.Configuration["JwtSettings:Audience"];
     var jwtSecret = builder.Configuration["JwtSettings:SecretKey"];
@@ -139,16 +127,13 @@ builder.Services.AddAuthentication(options =>
         
         ClockSkew = TimeSpan.Zero,
         
-        // 🎯 CRITICAL: Map claim types correctly
-        RoleClaimType = ClaimTypes.Role,  // Use the full claim type
-        NameClaimType = ClaimTypes.Name   // Use the full claim type
+        RoleClaimType = ClaimTypes.Role, 
+        NameClaimType = ClaimTypes.Name   
     };
 });
 
-// Configure Identity
 builder.Services.AddIdentity<User, Role>(options =>
 {
-    // Configure Identity options if needed
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -158,7 +143,6 @@ builder.Services.AddIdentity<User, Role>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Configure Authorization
 builder.Services.AddAuthorization(options =>
 {
     options.DefaultPolicy = new AuthorizationPolicyBuilder()
@@ -178,7 +162,7 @@ builder.Services.AddSwaggerGen(options =>
             Version = "v1", Title = "Historial Medico API", Description = "Historial Medico",
         });
     
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
@@ -211,8 +195,6 @@ builder.Services.Configure<FormOptions>(options =>
     options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50MB limit
 });
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -222,17 +204,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-// 🎯 CORRECT MIDDLEWARE ORDER
-// Static files FIRST
 app.UseStaticFiles();
-
-// CORS
 app.UseCors("AllowAll");
 
-// HTTPS redirection (only once!)
 app.UseHttpsRedirection();
 
-// Swagger (development only)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -246,26 +222,18 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// Database seeding
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var dbContext = scope.ServiceProvider.GetService<HistorialDbContext>();
-    context.Database.EnsureCreated();
-    dbContext.Database.EnsureCreated();
-    DatabaseSeed.Unseed(context, dbContext);
-    DatabaseSeed.Seed(context, dbContext);
+    var applicationContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var historialContext = scope.ServiceProvider.GetService<HistorialDbContext>();
+    applicationContext.Database.EnsureCreated();
+    historialContext.Database.EnsureCreated();
+    DatabaseSeed.Unseed(applicationContext, historialContext);
+    DatabaseSeed.Seed(applicationContext, historialContext);
 }
 
-// 🎯 AUTHENTICATION BEFORE AUTHORIZATION
 app.UseAuthentication();
 app.UseAuthorization();
-
-// API Endpoints
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
 var apiV1 = app.MapGroup("/api/v1");
 
@@ -273,18 +241,17 @@ var apiV1 = app.MapGroup("/api/v1");
 apiV1.MapGet("/weatherforecast",
         () =>
         {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast(
-                        DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        Random.Shared.Next(-20, 55),
-                        summaries[Random.Shared.Next(summaries.Length)]
+            var forecast = Enumerable.Range(1, 5).Select(_ =>
+                    new WeatherForecast(Random.Shared.Next(-20, 55)
                     ))
                 .ToArray();
             return forecast;
         })
     .WithName("GetWeatherForecast");
 
-// Patients controllers
+
+#region Patient Controller
+
 apiV1.MapGet("/patients", 
     async (IPatientService patientService, int pageNumber = 1, int pageSize = 10, int maxPages = 5) =>
     {
@@ -300,7 +267,7 @@ apiV1.MapGet("/patient",
     });
 
 apiV1.MapPost("/patients", 
-    async (IPatientService patientService, Patient patient) =>
+    async (IPatientService patientService,  Patient patient) =>
     {
         if (patient == null)
         {
@@ -347,9 +314,6 @@ apiV1.MapPost("patient/{patientId:guid}/history",
         return Results.Ok(updatedPatient);
     });
 
-// Attachment Minimal API Endpoints using PatientService
-
-// Upload attachment
 apiV1.MapPost("patient/{patientId:guid}/attachments", async (
     Guid patientId,
     IFormFile file,
@@ -358,15 +322,15 @@ apiV1.MapPost("patient/{patientId:guid}/attachments", async (
 {
     try
     {
-        var uploadsPath = environment.WebRootPath ?? environment.ContentRootPath;
+        var uploadsPath = environment.WebRootPath;
         var attachment = await patientService.AddAttachmentAsync(patientId, file, uploadsPath);
 
         return Results.Ok(new
         {
-            Id = attachment.Id,
-            Name = attachment.Name,
-            Size = attachment.Size,
-            UploadDate = attachment.UploadDate,
+            attachment.Id,
+            attachment.Name,
+            attachment.Size,
+            attachment.UploadDate,
             DownloadUrl = $"/api/patient/{patientId}/attachments/{attachment.Id}/download"
         });
     }
@@ -388,7 +352,6 @@ apiV1.MapPost("patient/{patientId:guid}/attachments", async (
 .WithOpenApi()
 .DisableAntiforgery();
 
-// Get all attachments for a patient
 apiV1.MapGet("patient/{patientId:guid}/attachments", async (
     Guid patientId,
     IPatientService patientService) =>
@@ -399,10 +362,10 @@ apiV1.MapGet("patient/{patientId:guid}/attachments", async (
 
         var result = attachments.Select(a => new
         {
-            Id = a.Id,
-            Name = a.Name,
-            Size = a.Size,
-            UploadDate = a.UploadDate,
+            a.Id,
+            a.Name,
+            a.Size,
+            a.UploadDate,
             DownloadUrl = $"/api/patient/{patientId}/attachments/{a.Id}/download"
         });
 
@@ -421,7 +384,6 @@ apiV1.MapGet("patient/{patientId:guid}/attachments", async (
 .WithTags("Attachments")
 .WithOpenApi();
 
-// Download attachment
 apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}/download", async (
     Guid patientId,
     Guid attachmentId,
@@ -448,7 +410,6 @@ apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}/download"
 .WithTags("Attachments")
 .WithOpenApi();
 
-// Delete attachment
 apiV1.MapDelete("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
     Guid patientId,
     Guid attachmentId,
@@ -474,7 +435,6 @@ apiV1.MapDelete("patient/{patientId:guid}/attachments/{attachmentId:guid}", asyn
 .WithTags("Attachments")
 .WithOpenApi();
 
-// Get attachment info (metadata only)
 apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
     Guid patientId,
     Guid attachmentId,
@@ -491,10 +451,10 @@ apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
 
         return Results.Ok(new
         {
-            Id = attachment.Id,
-            Name = attachment.Name,
-            Size = attachment.Size,
-            UploadDate = attachment.UploadDate,
+            attachment.Id,
+            attachment.Name,
+            attachment.Size,
+            attachment.UploadDate,
             DownloadUrl = $"/api/patient/{patientId}/attachments/{attachment.Id}/download"
         });
     }
@@ -507,7 +467,22 @@ apiV1.MapGet("patient/{patientId:guid}/attachments/{attachmentId:guid}", async (
 .WithTags("Attachments")
 .WithOpenApi();
 
-// Helper method for validation
+apiV1.MapPost("patient/{patientId:guid}/additionalPhone",
+    async (IPatientService patientService, Guid patientId, AdditionalPhone additionalPhone) =>
+    {
+        if (string.IsNullOrWhiteSpace(additionalPhone.Number))
+        {
+            return Results.BadRequest("Note content is required");
+        }
+        
+        await patientService.AddAdditionalPhone(additionalPhone, patientId);
+        
+        var updatedPatient = await patientService.GetPatient(patientId);
+        
+        return Results.Ok(updatedPatient.AdditionalPhones.FirstOrDefault(x => x.Number == additionalPhone.Number));
+    });
+
+
 static bool IsValidModel<T>(T model, out List<string> errors)
 {
     errors = new List<string>();
@@ -521,6 +496,12 @@ static bool IsValidModel<T>(T model, out List<string> errors)
     }
     return true;
 }
+
+#endregion
+
+#region User Controller
+
+
 
 // Login endpoint
 apiV1.MapPost("auth/login", async (
@@ -551,7 +532,6 @@ apiV1.MapPost("auth/login", async (
 .WithName("Login")
 .WithOpenApi();
 
-// Create admin user (for initial setup)
 apiV1.MapPost("auth/create-admin", async (
     RegisterModel registerModel,
     IUserService userService) =>
@@ -583,7 +563,6 @@ apiV1.MapPost("auth/create-admin", async (
 .WithName("CreateAdmin")
 .WithOpenApi();
 
-// Create user (Admin only)
 apiV1.MapPost("users/", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
     RegisterModel registerModel,
     IUserService userService,
@@ -616,8 +595,6 @@ apiV1.MapPost("users/", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Ad
 .WithName("CreateUser")
 .WithOpenApi();
 
-// Get all users (Admin only)
-// Get all users (Admin only)
 apiV1.MapGet("users", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
         IUserService userService,
         UserManager<User> userManager) =>  // Add UserManager
@@ -628,21 +605,20 @@ apiV1.MapGet("users", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admi
         
             var userList = new List<object>();
         
-            // Get roles for each user
             foreach (var user in users)
             {
                 var roles = await userManager.GetRolesAsync(user);
                 userList.Add(new
                 {
-                    Id = user.Id,
+                    user.Id,
                     Username = user.UserName,
-                    Email = user.Email,
-                    FullName = user.FullName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    MiddleName = user.MiddleName,
-                    SecondLastName = user.SecondLastName,
-                    Roles = roles.ToList()  // ✅ Add roles here
+                    user.Email,
+                    user.FullName,
+                    user.FirstName,
+                    user.LastName,
+                    user.MiddleName,
+                    user.SecondLastName,
+                    Roles = roles.ToList()
                 });
             }
 
@@ -656,7 +632,7 @@ apiV1.MapGet("users", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admi
     .WithName("GetAllUsers")
     .WithOpenApi();
 
-// Get user by ID (Admin only)
+
 apiV1.MapGet("users/{userId}", [Authorize(Roles = "Admin")] async (
     string userId,
     IUserService userService) =>
@@ -672,14 +648,14 @@ apiV1.MapGet("users/{userId}", [Authorize(Roles = "Admin")] async (
 
         var userInfo = new
         {
-            Id = user.Id,
+            user.Id,
             Username = user.UserName,
-            Email = user.Email,
-            FullName = user.FullName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            MiddleName = user.MiddleName,
-            SecondLastName = user.SecondLastName
+            user.Email,
+            user.FullName,
+            user.FirstName,
+            user.LastName,
+            user.MiddleName,
+            user.SecondLastName
         };
 
         return Results.Ok(userInfo);
@@ -692,7 +668,6 @@ apiV1.MapGet("users/{userId}", [Authorize(Roles = "Admin")] async (
 .WithName("GetUserById")
 .WithOpenApi();
 
-// Update user (Admin only)
 apiV1.MapPut("users/{userId}", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
     string userId,
     RegisterModel updateModel,
@@ -725,7 +700,6 @@ apiV1.MapPut("users/{userId}", [Authorize(AuthenticationSchemes = "Bearer", Role
 .WithName("UpdateUser")
 .WithOpenApi();
 
-// Delete user (Admin only)
 apiV1.MapDelete("users/{userId}", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
     string userId,
     IUserService userService) =>
@@ -752,7 +726,6 @@ apiV1.MapDelete("users/{userId}", [Authorize(AuthenticationSchemes = "Bearer", R
 .WithName("DeleteUser")
 .WithOpenApi();
 
-// Get current user info (Authenticated users)
 apiV1.MapGet("users/me", [Authorize(AuthenticationSchemes = "Bearer")] async (
     HttpContext httpContext,
     UserManager<User> userManager) =>
@@ -770,14 +743,14 @@ apiV1.MapGet("users/me", [Authorize(AuthenticationSchemes = "Bearer")] async (
 
         var userInfo = new
         {
-            Id = user.Id,
-            Username = user.UserName,
-            Email = user.Email,
-            FullName = user.FullName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            MiddleName = user.MiddleName,
-            SecondLastName = user.SecondLastName,
+            user.Id,
+            user.UserName,
+            user.Email,
+            user.FullName,
+            user.FirstName,
+            user.LastName,
+            user.MiddleName,
+            user.SecondLastName,
             Roles = roles
         };
 
@@ -791,9 +764,11 @@ apiV1.MapGet("users/me", [Authorize(AuthenticationSchemes = "Bearer")] async (
 .WithName("GetCurrentUser")
 .WithOpenApi();
 
+#endregion
+
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+record WeatherForecast(int TemperatureC)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
