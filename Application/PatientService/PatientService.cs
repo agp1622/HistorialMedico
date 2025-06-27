@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Core.Entities;
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ public class PatientService: IPatientService
 
         var totalRecords = await this._context.Patients.CountAsync();
         
-        var totalPages = (int)Math.Ceiling((double)totalRecords / (double)pageSize);
+        var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
         var pagesToDisplay = totalPages > maxPages ? maxPages : totalPages;
 
         return new PaginatedList<Patient>
@@ -44,6 +45,7 @@ public class PatientService: IPatientService
         var patient = await this._context.Patients
             .Include(p => p.Historial)
             .Include(x => x.Attachments)
+            .Include(c => c.AdditionalPhones)
             .FirstOrDefaultAsync(p => p.Id == id);
 
         if (patient is null)
@@ -111,169 +113,153 @@ public class PatientService: IPatientService
 
     public async Task<Attachment> AddAttachmentAsync(Guid patientId, IFormFile file, string uploadsPath)
     {
-        try
+        var patient = await this._context.Patients.FindAsync(patientId);
+        if (patient == null)
         {
-            // Validate patient exists
-            var patient = await _context.Patients.FindAsync(patientId);
-            if (patient == null)
-            {
-                throw new KeyNotFoundException($"Patient with ID {patientId} not found");
-            }
-
-            // Validate file
-            if (file == null || file.Length == 0)
-            {
-                throw new ArgumentException("No file provided or file is empty");
-            }
-
-            // Check file size (50MB limit)
-            const long maxFileSize = 50 * 1024 * 1024; // 50MB
-            if (file.Length > maxFileSize)
-            {
-                throw new ArgumentException("File size exceeds 50MB limit");
-            }
-
-            // Validate file types
-            var allowedTypes = new[] { 
-                "application/pdf", 
-                "image/jpeg", 
-                "image/png", 
-                "image/gif",
-                "application/msword",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "text/plain"
-            };
-
-            if (!allowedTypes.Contains(file.ContentType.ToLower()))
-            {
-                throw new ArgumentException($"File type '{file.ContentType}' is not allowed");
-            }
-
-            // Create patient-specific directory
-            var patientUploadsPath = Path.Combine(uploadsPath, "patients", patientId.ToString());
-            Directory.CreateDirectory(patientUploadsPath);
-
-            // Generate unique filename
-            var fileExtension = Path.GetExtension(file.FileName);
-            var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-            var fullPath = Path.Combine(patientUploadsPath, uniqueFileName);
-
-            // Save file to disk
-            using (var stream = new FileStream(fullPath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            // Create attachment record
-            var attachment = new Attachment
-            {
-                Id = Guid.NewGuid(),
-                Name = file.FileName,
-                Path = fullPath,
-                UploadDate = DateTime.UtcNow,
-                Size = FormatFileSize(file.Length),
-                PatientId = patientId
-            };
-
-            _context.Attachments.Add(attachment);
-            await _context.SaveChangesAsync();
-
-
-            return attachment;
+            throw new KeyNotFoundException($"Patient with ID {patientId} not found");
         }
-        catch (Exception ex)
+
+        if (file == null || file.Length == 0)
         {
-            throw;
+            throw new ArgumentException("No file provided or file is empty");
         }
+
+        const long maxFileSize = 50 * 1024 * 1024; // 50MB
+        if (file.Length > maxFileSize)
+        {
+            throw new ArgumentException("File size exceeds 50MB limit");
+        }
+
+        var allowedTypes = new[] { 
+            "application/pdf", 
+            "image/jpeg", 
+            "image/png", 
+            "image/gif",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "text/plain"
+        };
+
+        if (!allowedTypes.Contains(file.ContentType.ToLower()))
+        {
+            throw new ArgumentException($"File type '{file.ContentType}' is not allowed");
+        }
+
+        var patientUploadsPath = Path.Combine(uploadsPath, "patients", patientId.ToString());
+        Directory.CreateDirectory(patientUploadsPath);
+
+        var fileExtension = Path.GetExtension(file.FileName);
+        var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+        var fullPath = Path.Combine(patientUploadsPath, uniqueFileName);
+
+        await using (var stream = new FileStream(fullPath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        var attachment = new Attachment
+        {
+            Id = Guid.NewGuid(),
+            Name = file.FileName,
+            Path = fullPath,
+            UploadDate = DateTime.UtcNow,
+            Size = FormatFileSize(file.Length),
+            PatientId = patientId
+        };
+
+        this._context.Attachments.Add(attachment);
+        await this._context.SaveChangesAsync();
+
+
+        return attachment;
     }
 
     public async Task<IEnumerable<Attachment>> GetPatientAttachmentsAsync(Guid patientId)
     {
-        try
-        {
-            // Validate patient exists
-            var patient = await _context.Patients
-                .Include(p => p.Attachments)
-                .FirstOrDefaultAsync(p => p.Id == patientId);
+        var patient = await this._context.Patients
+            .Include(p => p.Attachments)
+            .FirstOrDefaultAsync(p => p.Id == patientId);
 
-            if (patient == null)
-            {
-                throw new KeyNotFoundException($"Patient with ID {patientId} not found");
-            }
-
-            return patient.Attachments.OrderByDescending(a => a.UploadDate);
-        }
-        catch (Exception ex)
+        if (patient == null)
         {
-            throw;
+            throw new KeyNotFoundException($"Patient with ID {patientId} not found");
         }
+
+        return patient.Attachments.OrderByDescending(a => a.UploadDate);
     }
 
     public async Task<Attachment?> GetAttachmentAsync(Guid patientId, Guid attachmentId)
     {
-        try
-        {
-            return await _context.Attachments
-                .FirstOrDefaultAsync(a => a.Id == attachmentId && a.PatientId == patientId);
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        return await this._context.Attachments
+            .FirstOrDefaultAsync(a => a.Id == attachmentId && a.PatientId == patientId);
     }
 
     public async Task<bool> DeleteAttachmentAsync(Guid patientId, Guid attachmentId)
     {
-        try
+        var attachment = await this._context.Attachments
+            .FirstOrDefaultAsync(a => a.Id == attachmentId && a.PatientId == patientId);
+
+        if (attachment == null)
         {
-            var attachment = await _context.Attachments
-                .FirstOrDefaultAsync(a => a.Id == attachmentId && a.PatientId == patientId);
-
-            if (attachment == null)
-            {
-                return false;
-            }
-
-            // Delete file from disk
-            if (File.Exists(attachment.Path))
-            {
-                File.Delete(attachment.Path);
-            }
-
-            // Delete from database
-            _context.Attachments.Remove(attachment);
-            await _context.SaveChangesAsync();
-
-
-            return true;
+            return false;
         }
-        catch (Exception ex)
+
+        if (File.Exists(attachment.Path))
         {
-            throw;
+            File.Delete(attachment.Path);
         }
+
+        this._context.Attachments.Remove(attachment);
+        await this._context.SaveChangesAsync();
+        
+        return true;
     }
 
     public async Task<(byte[] fileData, string contentType, string fileName)?> GetAttachmentFileAsync(Guid patientId, Guid attachmentId)
     {
-        try
+        var attachment = await GetAttachmentAsync(patientId, attachmentId);
+
+        if (attachment == null || !File.Exists(attachment.Path))
         {
-            var attachment = await GetAttachmentAsync(patientId, attachmentId);
-
-            if (attachment == null || !File.Exists(attachment.Path))
-            {
-                return null;
-            }
-
-            var fileData = await File.ReadAllBytesAsync(attachment.Path);
-            var contentType = GetContentType(attachment.Path);
-
-            return (fileData, contentType, attachment.Name);
+            return null;
         }
-        catch (Exception ex)
-        {
-            throw;
-        }
+
+        var fileData = await File.ReadAllBytesAsync(attachment.Path);
+        var contentType = GetContentType(attachment.Path);
+
+        return (fileData, contentType, attachment.Name);
     }
+
+    public async Task<AdditionalPhone> AddAdditionalPhone(AdditionalPhone additionalPhone, Guid patientId)
+    {
+        // First, validate that the patient exists
+        var patientExists = await this._context.Patients
+            .AnyAsync(p => p.Id == patientId);
+    
+      
+        additionalPhone.Number = CleanPhoneNumber(additionalPhone.Number);
+    
+        var existingPhone = await this._context.AdditionalPhones
+            .FirstOrDefaultAsync(x => x.Number == additionalPhone.Number && x.PatientId == patientId);
+        
+        additionalPhone.PatientId = patientId;
+        await this._context.AdditionalPhones.AddAsync(additionalPhone);
+        await this._context.SaveChangesAsync();
+    
+        return additionalPhone;
+    }
+
+    
+    
+    public static string CleanPhoneNumber(string phoneNumber, bool keepPlusSign = false)
+    {
+        if (string.IsNullOrEmpty(phoneNumber))
+            return string.Empty;
+
+        return Regex.Replace(phoneNumber, keepPlusSign ? @"[^\d+]" : @"[^\d]", "");
+    }
+    
+    
 
     // Helper methods
     private static string FormatFileSize(long bytes)
@@ -314,43 +300,35 @@ private async Task<string> GenerateUniqueNumExpedienteAsync()
     {
         try
         {
-            // Use a transaction to ensure atomicity
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            await using var transaction = await _context.Database.BeginTransactionAsync();
             
             try
             {
-                // Lock the counter row for update to prevent race conditions
                 var counter = await _context.ExpedienteCounters
                     .Where(ec => ec.Year == currentYear)
                     .FirstOrDefaultAsync();
 
                 if (counter == null)
                 {
-                    // Create new counter for this year
                     counter = new ExpedienteCounter
                     {
                         Year = currentYear,
-                        Counter = 0 // Start at 0, will be incremented to 1
+                        Counter = 0
                     };
                     _context.ExpedienteCounters.Add(counter);
-                    await _context.SaveChangesAsync(); // Save to get the ID
+                    await _context.SaveChangesAsync();
                 }
 
-                // Increment counter
                 counter.Counter++;
                 _context.ExpedienteCounters.Update(counter);
 
-                // Generate the expediente number
                 string newNumExpediente = $"{currentYear}-{counter.Counter}";
 
-                // Double-check uniqueness (should not be necessary with proper counter, but safety check)
                 bool exists = await _context.Patients
                     .AnyAsync(p => p.NumeroExpediente == newNumExpediente);
 
                 if (exists)
                 {
-                    // This should rarely happen with proper counter management
-                    // But if it does, we need to find the next available number
                     var maxExistingNumber = await _context.Patients
                         .Where(p => p.NumeroExpediente.StartsWith($"{currentYear}-"))
                         .Select(p => p.NumeroExpediente)
@@ -370,10 +348,8 @@ private async Task<string> GenerateUniqueNumExpedienteAsync()
                     newNumExpediente = $"{currentYear}-{counter.Counter}";
                 }
 
-                // Save the counter change
                 await _context.SaveChangesAsync();
                 
-                // Commit the transaction
                 await transaction.CommitAsync();
                 
                 return newNumExpediente;
@@ -386,11 +362,9 @@ private async Task<string> GenerateUniqueNumExpedienteAsync()
         }
         catch (DbUpdateConcurrencyException)
         {
-            // Another thread updated the counter, retry
             if (attempt == maxRetries - 1)
                 throw new Exception("No se pudo generar un número de expediente único después de varios intentos.");
             
-            // Wait a small random time before retrying
             await Task.Delay(Random.Shared.Next(10, 50));
         }
     }

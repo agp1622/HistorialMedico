@@ -13,6 +13,7 @@ public interface IPatientService
     public Task<Patient> CreatePatient(Patient patient);
     public Task<Patient> UpdatePatient(Patient patient, Guid id);
     public Task<MedicalHistory> AddMedicalHistory(MedicalHistory medicalHistory, Guid id);
+    public Task<AdditionalPhone> AddAdditionalPhone(AdditionalPhone additionalPhone, Guid id);
     
     Task<Attachment> AddAttachmentAsync(Guid patientId, IFormFile file, string uploadsPath);
     Task<IEnumerable<Attachment>> GetPatientAttachmentsAsync(Guid patientId);

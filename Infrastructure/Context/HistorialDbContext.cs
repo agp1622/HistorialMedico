@@ -11,4 +11,5 @@ public class HistorialDbContext: DbContext
     public DbSet<ExpedienteCounter> ExpedienteCounters { get; set; }
     public DbSet<MedicalHistory> MedicalHistories { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
+    public DbSet<AdditionalPhone> AdditionalPhones { get; set; }
 }

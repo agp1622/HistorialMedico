@@ -236,7 +236,7 @@ public class UserService : IUserService
         return await _userManager.FindByIdAsync(userId);
     }
 
-    public async Task<IdentityResult> UpdateUserAsync(string userId, RegisterModel updateModel)
+    public async Task<IdentityResult> UpdateUserAsync(string userId, UpdateModel updateModel)
     {
         try
         {
@@ -247,6 +247,7 @@ public class UserService : IUserService
             }
 
             // Update user properties
+            user.UserName = updateModel.Username; // 👈 ADD THIS LINE
             user.FirstName = updateModel.FirstName;
             user.LastName = updateModel.LastName;
             user.MiddleName = updateModel.MiddleName;

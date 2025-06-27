@@ -57,4 +57,6 @@ public class Patient : BaseEntity
     public List<MedicalHistory> Historial { get; set; } = new();
     
     public List<Attachment> Attachments { get; set; } = new();
+    
+    public List<AdditionalPhone> AdditionalPhones { get; set; } = new();
 }
