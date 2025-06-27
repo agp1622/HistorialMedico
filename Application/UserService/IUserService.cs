@@ -15,6 +15,6 @@ public interface IUserService
     Task<bool> IsAdminAsync(ClaimsPrincipal user);
     Task<IEnumerable<User>> GetAllUsersAsync();
     Task<User?> GetUserByIdAsync(string userId);
-    Task<IdentityResult> UpdateUserAsync(string userId, RegisterModel updateModel);
+    Task<IdentityResult> UpdateUserAsync(string userId, UpdateModel updateModel);
     Task<IdentityResult> DeleteUserAsync(string userId);
 }

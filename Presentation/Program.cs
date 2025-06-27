@@ -670,7 +670,7 @@ apiV1.MapGet("users/{userId}", [Authorize(Roles = "Admin")] async (
 
 apiV1.MapPut("users/{userId}", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
     string userId,
-    RegisterModel updateModel,
+    UpdateModel updateModel,
     IUserService userService) =>
 {
     try
