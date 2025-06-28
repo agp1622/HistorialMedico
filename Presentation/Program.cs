@@ -23,16 +23,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policyBuilder =>
+    options.AddPolicy("AllowFrontend", policyBuilder =>
     {
         policyBuilder
-            .AllowAnyOrigin()
+            .WithOrigins("http://intranet.cirugiasureda.local")
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
-// Services
 builder.Services.AddDbContext<HistorialDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HistorialDb")));
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
@@ -192,7 +192,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50MB limit
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
 });
 
 builder.Services.AddOpenApi();
@@ -205,7 +205,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
@@ -237,7 +237,6 @@ app.UseAuthorization();
 
 var apiV1 = app.MapGroup("/api/v1");
 
-// Controllers
 apiV1.MapGet("/weatherforecast",
         () =>
         {
@@ -501,9 +500,6 @@ static bool IsValidModel<T>(T model, out List<string> errors)
 
 #region User Controller
 
-
-
-// Login endpoint
 apiV1.MapPost("auth/login", async (
     LoginModel loginModel,
     IUserService userService) =>
@@ -597,7 +593,7 @@ apiV1.MapPost("users/", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Ad
 
 apiV1.MapGet("users", [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")] async (
         IUserService userService,
-        UserManager<User> userManager) =>  // Add UserManager
+        UserManager<User> userManager) =>
     {
         try
         {
