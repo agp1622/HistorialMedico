@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.PatientService;
+using Core;
 using Core.Entities;
 using Infrastructure;
 using Infrastructure.Context;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presentation.Domain;
@@ -26,7 +28,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policyBuilder =>
     {
         policyBuilder
-            .WithOrigins("http://intranet.cirugiasureda.local")
+            .WithOrigins(
+                "http://intranet.cirugiasureda.local",
+                "https://intranet.cirugiasureda.local",
+                "http://api.cirugiasureda.local:8080",
+                "https://api.cirugiasureda.local:8443"
+            )            
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
@@ -153,6 +160,8 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
+builder.Services.Configure<FileSettings>(builder.Configuration.GetSection("FileSettings"));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -206,8 +215,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseCors("AllowFrontend");
-
-app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {
@@ -317,11 +324,12 @@ apiV1.MapPost("patient/{patientId:guid}/attachments", async (
     Guid patientId,
     IFormFile file,
     IPatientService patientService,
-    IWebHostEnvironment environment) =>
+    IOptions<FileSettings> fileOptions) =>
 {
     try
     {
-        var uploadsPath = environment.WebRootPath;
+        var fileSettings = fileOptions.Value;
+        var uploadsPath = Path.Combine(fileSettings.UploadPath, "patients", patientId.ToString());
         var attachment = await patientService.AddAttachmentAsync(patientId, file, uploadsPath);
 
         return Results.Ok(new
