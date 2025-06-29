@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
                 "https://intranet.cirugiasureda.local",
                 "http://api.cirugiasureda.local:8080",
                 "https://api.cirugiasureda.local:8443"
-            )            
+            )           
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
@@ -160,8 +160,6 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-builder.Services.Configure<FileSettings>(builder.Configuration.GetSection("FileSettings"));
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -205,6 +203,8 @@ builder.Services.Configure<FormOptions>(options =>
 });
 
 builder.Services.AddOpenApi();
+
+builder.Services.Configure<FileSettings>( builder.Configuration.GetSection("FileSettings"));
 
 var app = builder.Build();
 
