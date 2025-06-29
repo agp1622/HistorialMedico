@@ -235,8 +235,12 @@ using (var scope = app.Services.CreateScope())
     var historialContext = scope.ServiceProvider.GetService<HistorialDbContext>();
     applicationContext.Database.EnsureCreated();
     historialContext.Database.EnsureCreated();
-    DatabaseSeed.Unseed(applicationContext, historialContext);
-    DatabaseSeed.Seed(applicationContext, historialContext);
+
+    if (app.Environment.IsDevelopment())
+    {
+        DatabaseSeed.Unseed(applicationContext, historialContext);
+        DatabaseSeed.Seed(applicationContext, historialContext);
+    }
 }
 
 app.UseAuthentication();
