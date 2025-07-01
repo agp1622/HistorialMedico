@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Core;
 using Core.Entities;
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
@@ -71,14 +72,42 @@ public class PatientService: IPatientService
         return true;
     }
 
-    public async Task<Patient> CreatePatient(Patient patient)
+    public async Task<Patient> CreatePatient(PatientDto patient)
     {
         patient.NumeroExpediente = await GenerateUniqueNumExpedienteAsync();
+        patient.Id = Guid.NewGuid();
+
+        var savedPatient = new Patient()
+        {
+            Id = patient.Id,
+            NumeroExpediente = patient.NumeroExpediente,
+            Nombre = patient.Nombre,
+            Sexo = patient.Sexo,
+            Edad = patient.Edad,
+            Diagnostico = patient.Diagnostico,
+            ReferidoPor = patient.ReferidoPor,
+            FechaNacimiento = patient.FechaNacimiento,
+            FechaConsulta = patient.FechaConsulta,
+            SeguroMedico = patient.SeguroMedico,
+            Alergias = patient.Alergias,
+            Madre = patient.Madre,
+            MadreTelefono = patient.MadreTelefono,
+            Padre = patient.Padre,
+            PadreTelefono = patient.PadreTelefono,
+            PadreCorreo = patient.PadreCorreo,
+            Gestacion = patient.Gestacion,
+            Parto = patient.Parto,
+            PesoAlNacer = patient.PesoAlNacer,
+            PesoUnidad = patient.PesoUnidad,
+            Historial = patient.Historial,
+            Attachments = patient.Attachments,
+            AdditionalPhones = patient.AdditionalPhones
+        };
         
-        await this._context.Patients.AddAsync(patient);
+        await this._context.Patients.AddAsync(savedPatient);
         await this._context.SaveChangesAsync();
         
-        return patient;
+        return savedPatient;
     }
 
     public async Task<Patient> UpdatePatient(Patient patient, Guid id)

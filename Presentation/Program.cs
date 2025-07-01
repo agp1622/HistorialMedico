@@ -27,16 +27,29 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policyBuilder =>
     {
-        policyBuilder
-            .WithOrigins(
-                "http://intranet.cirugiasureda.local",
-                "https://intranet.cirugiasureda.local",
-                "http://api.cirugiasureda.local:8080",
-                "https://api.cirugiasureda.local:8443"
-            )           
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+        if (builder.Environment.IsDevelopment())
+        {
+          policyBuilder.WithOrigins(
+                  "http://localhost:5173",                
+                  "http://localhost:8080"
+              )
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
+        else
+        {
+            policyBuilder
+                .WithOrigins(
+                    "http://intranet.cirugiasureda.local",
+                    "https://intranet.cirugiasureda.local",
+                    "http://api.cirugiasureda.local:8080",
+                    "https://api.cirugiasureda.local:8443"
+                )           
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
     });
 });
 
@@ -277,7 +290,7 @@ apiV1.MapGet("/patient",
     });
 
 apiV1.MapPost("/patients", 
-    async (IPatientService patientService,  Patient patient) =>
+    async (IPatientService patientService,  PatientDto patient) =>
     {
         if (patient == null)
         {

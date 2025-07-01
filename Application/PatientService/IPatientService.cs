@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Core;
 using Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Presentation.Domain;
@@ -10,7 +11,7 @@ public interface IPatientService
     public Task<PaginatedList<Patient>> GetPatients(int pageNumber, int pageSize, int maxPages);
     public Task<Patient> GetPatient(Guid id);
     public Task<bool> DeletePatient(Guid id);
-    public Task<Patient> CreatePatient(Patient patient);
+    public Task<Patient> CreatePatient(PatientDto patient);
     public Task<Patient> UpdatePatient(Patient patient, Guid id);
     public Task<MedicalHistory> AddMedicalHistory(MedicalHistory medicalHistory, Guid id);
     public Task<AdditionalPhone> AddAdditionalPhone(AdditionalPhone additionalPhone, Guid id);
