@@ -275,12 +275,18 @@ apiV1.MapGet("/weatherforecast",
 
 #region Patient Controller
 
-apiV1.MapGet("/patients", 
-    async (IPatientService patientService, int pageNumber = 1, int pageSize = 10, int maxPages = 5) =>
-    {
-        var patients = await patientService.GetPatients(pageNumber, pageSize, maxPages);
-        return Results.Ok(patients);
-    });
+apiV1.MapGet("/patients", async (
+    IPatientService patientService,
+    int pageNumber = 1,
+    int pageSize = 10,
+    int maxPages = 5,
+    string? search = null,
+    string? orderBy = null,
+    string? order = "asc") =>
+{
+    var patients = await patientService.GetPatients(pageNumber, pageSize, maxPages, search, orderBy, order);
+    return Results.Ok(patients);
+});
 
 apiV1.MapGet("/patient", 
     async (IPatientService patientService, string id ) =>

@@ -17,29 +17,53 @@ public class PatientService: IPatientService
         this._context = context;
     }
 
-    public async Task<PaginatedList<Patient>> GetPatients(int pageNumber, int pageSize, int maxPages)
+    public async Task<PaginatedList<Patient>> GetPatients(
+        int pageNumber, int pageSize, int maxPages,
+        string? search = null, string? orderBy = null, string? order = "asc")
     {
         var query = this._context.Patients.AsQueryable();
-        
+
+        // Filtering
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.ToLower();
+            query = query.Where(p =>
+                p.Nombre.ToLower().Contains(search) ||
+                p.NumeroExpediente.ToLower().Contains(search) ||
+                p.Diagnostico.ToLower().Contains(search));
+        }
+
+        // Sorting
+        if (!string.IsNullOrWhiteSpace(orderBy))
+        {
+            var property = typeof(Patient).GetProperty(orderBy);
+            if (property != null)
+            {
+                query = order == "desc"
+                    ? query.OrderByDescending(e => EF.Property<object>(e, orderBy))
+                    : query.OrderBy(e => EF.Property<object>(e, orderBy));
+            }
+        }
+
+        var totalRecords = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+        var pagesToDisplay = totalPages > maxPages ? maxPages : totalPages;
+
         var patients = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        var totalRecords = await this._context.Patients.CountAsync();
-        
-        var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
-        var pagesToDisplay = totalPages > maxPages ? maxPages : totalPages;
-
         return new PaginatedList<Patient>
         {
             Items = patients,
-            TotalPages = pagesToDisplay,
-            PageSize = pageSize,
             TotalRecords = totalRecords,
-            CurrentPage = pageNumber
+            PageSize = pageSize,
+            CurrentPage = pageNumber,
+            TotalPages = pagesToDisplay
         };
     }
+
 
     public async Task<Patient> GetPatient(Guid id)
     {

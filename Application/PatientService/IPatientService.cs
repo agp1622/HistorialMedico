@@ -8,7 +8,7 @@ namespace Presentation.Services;
 
 public interface IPatientService
 {
-    public Task<PaginatedList<Patient>> GetPatients(int pageNumber, int pageSize, int maxPages);
+    public Task<PaginatedList<Patient>> GetPatients(int pageNumber, int pageSize, int maxPages, string? search, string? orderBy, string? order);
     public Task<Patient> GetPatient(Guid id);
     public Task<bool> DeletePatient(Guid id);
     public Task<Patient> CreatePatient(PatientDto patient);
