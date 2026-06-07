@@ -14,6 +14,23 @@ public class DatabaseSeed
         {
             var hash = new PasswordHasher<User>();
 
+            // Default development tenant — every seeded user/patient below is
+            // stamped with this TenantId so the global query filters
+            // (HistorialDbContext.OnModelCreating) still return data for them.
+            var seedNow = DateTime.UtcNow;
+            var defaultTenant = new Tenant
+            {
+                Id = Guid.NewGuid(),
+                Name = "Clínica Demo",
+                Slug = "clinica-demo",
+                BillingStatus = "trialing",
+                Plan = "solo",
+                IsActive = true,
+                CreatedAt = seedNow,
+                UpdatedAt = seedNow
+            };
+            context.Tenants.Add(defaultTenant);
+
             // Create Admin Role
             var adminRole = new Role
             {
@@ -43,7 +60,8 @@ public class DatabaseSeed
                 LastName = "Sistema",
                 MiddleName = "del",
                 SecondLastName = "Médico",
-                PasswordHash = hash.HashPassword(null, "Admin123!")
+                PasswordHash = hash.HashPassword(null, "Admin123!"),
+                TenantId = defaultTenant.Id
             };
 
             // Create Normal User (Doctor)
@@ -59,7 +77,8 @@ public class DatabaseSeed
                 LastName = "Pérez",
                 MiddleName = "Carlos",
                 SecondLastName = "González",
-                PasswordHash = hash.HashPassword(null, "Doctor123!")
+                PasswordHash = hash.HashPassword(null, "Doctor123!"),
+                TenantId = defaultTenant.Id
             };
 
             // Keep your existing user (Pavel)
@@ -73,13 +92,15 @@ public class DatabaseSeed
                 EmailConfirmed = true,
                 FirstName = "Pavel",
                 LastName = "Arias",
-                PasswordHash = hash.HashPassword(null, "Geraldo123?")
+                PasswordHash = hash.HashPassword(null, "Geraldo123?"),
+                TenantId = defaultTenant.Id
             };
 
             // Sample Patient (your existing patient)
             var patient = new Patient
             {
                 Id = Guid.NewGuid(),
+                TenantId = defaultTenant.Id,
                 NumeroExpediente = "EXP001",
                 Nombre = "Juan Carlos Pérez López",
                 Sexo = "M",
@@ -107,6 +128,7 @@ public class DatabaseSeed
                     new MedicalHistory
                     {
                         Id = Guid.NewGuid(),
+                        TenantId = defaultTenant.Id,
                         Fecha = DateTime.Today,
                         Nota = "Primera consulta pediátrica. Paciente en excelente estado general.",
                         CreatedAt = DateTime.UtcNow,
@@ -178,8 +200,16 @@ public class DatabaseSeed
         context.Users.RemoveRange(context.Users);
         context.Roles.RemoveRange(context.Roles);
         context.UserRoles.RemoveRange(context.UserRoles);
-        dbContext.Patients.RemoveRange(dbContext.Patients);
-        dbContext.MedicalHistories.RemoveRange(dbContext.MedicalHistories);
+        context.Tenants.RemoveRange(context.Tenants);
+
+        // IMPORTANT: this runs at app startup outside any HTTP request, so
+        // ICurrentTenantService.TenantId is null and HistorialDbContext's global
+        // tenant query filter (entity.TenantId == currentTenant.TenantId) would
+        // match nothing — silently leaving old rows behind on every restart.
+        // IgnoreQueryFilters() bypasses that for this administrative wipe.
+        dbContext.Patients.RemoveRange(dbContext.Patients.IgnoreQueryFilters());
+        dbContext.MedicalHistories.RemoveRange(dbContext.MedicalHistories.IgnoreQueryFilters());
+
         context.SaveChanges();
         dbContext.SaveChanges();
     }

@@ -26,6 +26,16 @@ public class RegisterModel
     
     [Required]
     public string LastName { get; set; } = string.Empty;
-    
+
     public string? SecondLastName { get; set; }
+
+    /// <summary>
+    /// Name of the clinic/practice to create, e.g. "Cirugía Sureda".
+    /// Required only for the "create-admin" / new-tenant signup flow
+    /// (CreateAdminUserAsync), where it provisions a brand-new Tenant whose
+    /// first Admin is the user being registered. Ignored when an existing
+    /// admin invites a teammate via CreateUserAsync — that user simply
+    /// inherits the inviting admin's TenantId.
+    /// </summary>
+    public string? TenantName { get; set; }
 }
